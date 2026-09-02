@@ -1,0 +1,2455 @@
+/* =============================================================
+   UNTUKMU — ULANG TAHUN
+   Desain: "Édition Privée" — undangan digital mewah & eksklusif.
+   Palet: velvet plum gelap + rose dusty + gold foil di atas kartu
+   ivory tersamar (glass bertekstur sutra), tipografi serif untuk
+   momen emosional + sans halus untuk UI, garis emas tipis ala
+   kartu undangan cetak premium.
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Jost:wght@400;500;600;700&family=Archivo+Black&display=swap');
+
+ :root{
+  color-scheme: dark;
+
+  /* ---- LAVENDER × VIOLET × PINK — soft, romantic, dreamy ---- */
+  --bg:#120d1d;
+  --bg-2:#1b1029;
+  --bg-3:#28143d;
+
+  --violet:#8f62d8;
+  --violet-dim:#67439e;
+  --lavender:#b89af2;
+  --lavender-soft:#d9c8ff;
+  --magenta:#e878b1;
+  --magenta-dim:#c6538e;
+  --pink:#f3a7ca;
+  --pink-soft:#ffd7e9;
+  --cyan:#d8d0ff;
+
+  /* legacy aliases kept for existing JS/CSS */
+  --amber:var(--lavender);
+  --amber-bright:var(--lavender-soft);
+  --gold:var(--lavender);
+  --gold-bright:var(--lavender-soft);
+  --rose:var(--magenta);
+  --peach:var(--violet);
+
+  --ink:#fbf5ff;
+  --ink-dim:#e5d6ee;
+  --muted:#b9a2c7;
+  --muted-2:#806a91;
+
+  --glass-bg:linear-gradient(180deg,rgba(250,242,255,.09),rgba(250,242,255,.025));
+  --glass-border:rgba(216,200,255,.25);
+  --glass-border-strong:rgba(216,200,255,.46);
+  --glass-blur:22px;
+  --foil-line:linear-gradient(135deg,rgba(217,200,255,.9) 0%,rgba(143,98,216,.35) 38%,rgba(232,120,177,.4) 68%,rgba(255,215,233,.85) 100%);
+
+  --shadow-lift:0 30px 70px -20px rgba(5,2,10,.78),0 10px 30px -10px rgba(143,98,216,.28);
+  --shadow-soft:0 18px 40px -18px rgba(5,2,10,.62);
+  --glow-violet:0 0 0 1px rgba(143,98,216,.34),0 8px 30px -6px rgba(143,98,216,.5);
+  --glow-magenta:0 8px 26px -6px rgba(232,120,177,.42);
+  --glow-gold:0 8px 24px -6px rgba(184,154,242,.42);
+
+  --grad-primary:linear-gradient(135deg,var(--violet) 0%,var(--lavender) 48%,var(--magenta) 100%);
+  --grad-primary-hover:linear-gradient(135deg,#a477e7 0%,#e0ceff 48%,#f18abc 100%);
+  --grad-amber:linear-gradient(135deg,var(--violet) 0%,var(--magenta) 100%);
+  --grad-text:linear-gradient(100deg,var(--lavender-soft) 0%,var(--magenta) 55%,var(--violet) 100%);
+
+  --radius-xl:22px;
+  --radius-lg:18px;
+  --radius-md:14px;
+  --radius-sm:10px;
+  --radius-pill:999px;
+
+  --font-display:'Cormorant Garamond',serif;
+  --font-body:'Jost',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-black:'Archivo Black','Jost',sans-serif;
+
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-spring:cubic-bezier(.25,1.12,.36,1);
+  --ease-soft:cubic-bezier(.22,1,.36,1);
+
+  --nav-clearance:150px;
+  --vh:1vh;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-tap-highlight-color:transparent}
+::selection{background:var(--violet);color:#fff}
+
+/* slim, on-brand scrollbar where supported */
+*{scrollbar-width:thin;scrollbar-color:rgba(124,64,152,.45) transparent}
+*::-webkit-scrollbar{width:7px;height:7px}
+*::-webkit-scrollbar-thumb{background:rgba(124,64,152,.45);border-radius:10px}
+*::-webkit-scrollbar-track{background:transparent}
+
+html,body{
+  width:100%;
+  height:calc(var(--vh,1vh) * 100);
+  height:100dvh;
+  overflow:hidden;
+  overscroll-behavior:none;
+  background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+button{font:inherit;-webkit-tap-highlight-color:transparent;color:inherit;background:none;border:none;cursor:pointer}
+a{color:inherit}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--amber-bright);outline-offset:3px;border-radius:6px;
+}
+img{max-width:100%;display:block}
+
+.app{width:100%;height:100%;position:relative;isolation:isolate}
+
+/* =============================================================
+   AMBIENT BACKGROUND — aurora blobs + starfield + grain + hearts
+   ============================================================= */
+body{
+  background:
+    radial-gradient(1100px 700px at 82% -6%, rgba(226,105,155,.16), transparent 60%),
+    radial-gradient(900px 620px at -6% 8%, rgba(124,64,152,.20), transparent 58%),
+    radial-gradient(760px 620px at 50% 112%, rgba(201,161,90,.10), transparent 60%),
+    var(--bg);
+  position:relative;
+}
+/* slow-drifting velvet mesh, always behind everything — deeper/richer
+   and less blurred than the old "aurora glow" so it reads as velvet
+   texture rather than neon light */
+body::before{
+  content:"";position:fixed;inset:-10%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(38% 30% at 20% 22%, rgba(124,64,152,.26), transparent 70%),
+    radial-gradient(32% 26% at 82% 18%, rgba(226,105,155,.16), transparent 70%),
+    radial-gradient(36% 30% at 70% 82%, rgba(201,161,90,.11), transparent 70%),
+    radial-gradient(30% 24% at 12% 78%, rgba(201,161,90,.07), transparent 70%);
+  filter:blur(64px) saturate(108%);
+  animation:auroraDrift 26s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift{
+  0%{transform:translate3d(0,0,0) rotate(0deg) scale(1)}
+  50%{transform:translate3d(2%,-2%,0) rotate(3deg) scale(1.06)}
+  100%{transform:translate3d(-2%,1%,0) rotate(-2deg) scale(1.02)}
+}
+
+/* silk sheen — a soft diagonal band of light that drifts across the
+   whole page very slowly, like light catching woven silk/satin */
+.silk-sheen{
+  position:fixed;inset:-20%;z-index:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.5;
+  background:linear-gradient(115deg,
+    transparent 0%,transparent 38%,
+    rgba(238,205,142,.55) 47%,
+    rgba(247,236,231,.7) 50%,
+    rgba(238,205,142,.55) 53%,
+    transparent 62%,transparent 100%);
+  background-size:220% 220%;
+  animation:silkDrift 16s ease-in-out infinite;
+}
+@keyframes silkDrift{
+  0%{background-position:0% 0%}
+  50%{background-position:100% 45%}
+  100%{background-position:0% 0%}
+}
+@media(prefers-reduced-motion:reduce){.silk-sheen{animation:none;opacity:.28}}
+
+.stars,.grain{position:fixed;inset:0;pointer-events:none;z-index:0}
+.stars span{will-change:opacity,transform}
+.grain{
+  z-index:1;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+.hearts-layer{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+
+/* ---------- DEEP SPACE — planet-planet lain yang terlihat di
+   kejauhan. Posisi & gerak drift-nya tetap (CSS), tapi warna/ukuran/
+   cincinnya diganti bergantian lewat JS supaya terasa seperti
+   melihat anggota tata surya berbeda dari waktu ke waktu (Matahari,
+   Merkurius, Venus, Bumi, dst) — lihat swapRandomPlanet() di script.js. ---------- */
+/* ---------- DEEP SPACE — planet-planet lain yang terlihat di
+   kejauhan. Masing-masing benar-benar melintasi seluruh layar secara
+   perlahan (seperti awan berjalan), lalu keluar jangkauan pandang di
+   satu sisi — bukan menghilang di tempat. Wujud/warna/ukuran/cincinnya
+   diganti persis saat sedang di luar layar (tidak terjangkau mata),
+   jadi saat "muncul lagi karena putaran orbit"-nya selesai, yang
+   terlihat adalah anggota tata surya yang berbeda — lihat listener
+   "animationiteration" di script.js. ---------- */
+.deep-space{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.distant-planet{
+  position:absolute;left:0;border-radius:50%;will-change:transform;
+}
+.distant-planet[data-slot="a"]{top:8%;width:190px;height:190px;opacity:.42;animation:planetOrbitA 50s linear infinite}
+.distant-planet[data-slot="b"]{top:60%;width:130px;height:130px;opacity:.34;animation:planetOrbitB 62s linear infinite}
+.distant-planet[data-slot="c"]{top:32%;width:56px;height:56px;opacity:.38;animation:planetOrbitC 38s linear infinite}
+.planet-ring{
+  display:none;position:absolute;left:50%;top:50%;width:210%;height:34%;
+  border:2px solid rgba(216,200,255,.4);border-radius:50%;
+  transform:translate(-50%,-50%) rotate(-16deg);pointer-events:none;
+}
+.planet-ring.show{display:block}
+/* lintasan kiri→kanan, melengkung lembut naik-turun seperti busur orbit;
+   titik awal & akhir sengaja jauh di luar layar (di luar -40vw/160vw)
+   supaya lompatan saat animasi mengulang dari 100% balik ke 0% tidak
+   pernah kelihatan (planetnya memang lagi tak terjangkau pandang). */
+@keyframes planetOrbitA{
+  0%{transform:translate(-40vw,6vh)}
+  20%{transform:translate(15vw,-3vh)}
+  50%{transform:translate(65vw,5vh)}
+  80%{transform:translate(115vw,-4vh)}
+  100%{transform:translate(165vw,4vh)}
+}
+/* lintasan kanan→kiri, arah berlawanan biar terasa variatif */
+@keyframes planetOrbitB{
+  0%{transform:translate(165vw,-5vh)}
+  20%{transform:translate(115vw,3vh)}
+  50%{transform:translate(65vw,-4vh)}
+  80%{transform:translate(15vw,3vh)}
+  100%{transform:translate(-40vw,-5vh)}
+}
+/* planet kecil, lebih cepat & lintasannya sedikit lebih naik-turun */
+@keyframes planetOrbitC{
+  0%{transform:translate(-35vw,-6vh)}
+  25%{transform:translate(30vw,4vh)}
+  50%{transform:translate(95vw,-5vh)}
+  75%{transform:translate(145vw,3vh)}
+  100%{transform:translate(195vw,-4vh)}
+}
+
+/* ---------- ASTEROID — bongkahan batu tumbling yang melintas layar
+   dari sisi ke sisi manapun (bukan hanya bawah ke atas), lintasannya
+   sedikit melengkung lewat titik tengah acak. ---------- */
+.space-asteroid{
+  position:absolute;top:0;left:0;z-index:1;pointer-events:none;
+  border-radius:42% 58% 55% 45% / 50% 40% 62% 48%;
+  background:radial-gradient(circle at 38% 32%, #a898b6, #5c4a6b 60%, #362a42 100%);
+  box-shadow:0 0 6px rgba(0,0,0,.45), inset 2px 2px 3px rgba(0,0,0,.4), inset -2px -2px 3px rgba(255,255,255,.08);
+  animation:asteroidFly linear forwards;
+  animation-duration:inherit;
+  will-change:transform,opacity;
+}
+@keyframes asteroidFly{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  7%{opacity:.9}
+  50%{transform:translate(var(--dx1),var(--dy1)) rotate(var(--aspin1,420deg))}
+  93%{opacity:.75}
+  100%{transform:translate(var(--dx2),var(--dy2)) rotate(var(--aspin2,840deg));opacity:0}
+}
+
+/* ---------- SATELIT — melintas lebih pelan & tenang, lampu kecil
+   berkedip di ujungnya, beda dari asteroid yang tumbling kasar. ---------- */
+.space-satellite{
+  position:absolute;top:0;left:0;z-index:1;pointer-events:none;
+  border-radius:2px;
+  background:linear-gradient(135deg, var(--muted), var(--muted-2));
+  box-shadow:0 0 5px rgba(0,0,0,.35);
+  animation:satelliteFly linear forwards;
+  animation-duration:inherit;
+  will-change:transform,opacity;
+}
+.space-satellite::before{
+  content:"";position:absolute;right:-2px;top:50%;
+  width:3px;height:3px;border-radius:50%;
+  background:var(--pink-soft);
+  transform:translateY(-50%);
+  box-shadow:0 0 5px 1.5px rgba(243,167,202,.9);
+  animation:satelliteBlink 1.1s ease-in-out infinite;
+}
+@keyframes satelliteBlink{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes satelliteFly{
+  0%{transform:translate(0,0) rotate(var(--asrot,0deg));opacity:0}
+  10%{opacity:.85}
+  90%{opacity:.85}
+  100%{transform:translate(var(--dx2),var(--dy2)) rotate(var(--asrot,0deg));opacity:0}
+}
+
+/* ---------- TABRAKAN ASTEROID — kilatan singkat + percikan yang
+   memancar, dipicu tepat saat dua asteroid bertemu di titik yang sama. ---------- */
+.space-flash{
+  position:absolute;top:0;left:0;width:26px;height:26px;margin:-13px 0 0 -13px;
+  border-radius:50%;pointer-events:none;z-index:2;
+  background:radial-gradient(circle, rgba(255,255,255,.95), rgba(255,214,255,.45) 42%, transparent 72%);
+  animation:flashPop .45s ease-out forwards;
+}
+@keyframes flashPop{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.4);opacity:0}}
+.space-shockwave{
+  position:absolute;top:0;left:0;width:16px;height:16px;margin:-8px 0 0 -8px;
+  border-radius:50%;pointer-events:none;z-index:2;
+  border:2.5px solid rgba(255,255,255,.85);
+  box-shadow:0 0 18px rgba(216,200,255,.6), inset 0 0 12px rgba(255,255,255,.45);
+  animation:shockwaveExpand .9s ease-out forwards;
+}
+@keyframes shockwaveExpand{
+  0%{transform:scale(.4);opacity:1;border-width:4px}
+  70%{opacity:.4}
+  100%{transform:scale(13);opacity:0;border-width:.5px}
+}
+.space-spark{
+  position:absolute;top:0;left:0;width:4px;height:4px;border-radius:50%;
+  background:#fff;pointer-events:none;z-index:2;
+  box-shadow:0 0 8px 2px rgba(255,255,255,.9);
+  animation:sparkFly .55s ease-out forwards;
+}
+@keyframes sparkFly{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  100%{transform:translate(var(--sparkx),var(--sparky)) scale(.2);opacity:0}
+}
+
+/* ---------- PECAHAN ASTEROID — bongkahan batu kecil yang beterbangan
+   dari titik tabrakan, warnanya senada dengan tubuh asteroid supaya
+   terlihat seperti benar-benar hancur berkeping-keping, bukan cuma
+   percikan cahaya. ---------- */
+.space-debris{
+  position:absolute;top:0;left:0;pointer-events:none;z-index:2;
+  border-radius:40% 60% 55% 45% / 48% 42% 58% 52%;
+  background:radial-gradient(circle at 35% 30%, #a898b6, #5c4a6b 55%, #302436 100%);
+  box-shadow:0 0 4px rgba(0,0,0,.55), inset 1px 1px 2px rgba(0,0,0,.4);
+  animation:debrisFly .85s cubic-bezier(.15,.7,.3,1) forwards;
+}
+@keyframes debrisFly{
+  0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}
+  100%{transform:translate(var(--debx),var(--deby)) rotate(var(--debrot,540deg)) scale(.25);opacity:0}
+}
+
+.shooting-star{
+  position:absolute;width:2px;height:2px;border-radius:50%;
+  background:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.2);
+  animation:shootAcross 1.5s ease-out forwards;
+}
+.shooting-star::before{
+  content:"";position:absolute;top:50%;right:0;width:80px;height:1px;
+  background:linear-gradient(90deg,rgba(255,255,255,.9),transparent);
+  transform:translateY(-50%) rotate(180deg);transform-origin:right center;
+}
+@keyframes shootAcross{
+  0%{transform:translate(0,0) rotate(-32deg) scale(.4);opacity:0}
+  12%{opacity:1}
+  100%{transform:translate(160px,110px) rotate(-32deg) scale(1);opacity:0}
+}
+
+.cursor-glow{
+  position:fixed;top:0;left:0;width:260px;height:260px;z-index:1;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(124,64,152,.20),rgba(226,105,155,.08) 45%,transparent 72%);
+  opacity:0;transition:opacity .4s ease;will-change:transform;
+}
+.cursor-glow.visible{opacity:1}
+
+.mood-glow{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity 1.2s ease}
+.mood-glow.on{opacity:1;background:radial-gradient(60% 50% at 50% 30%,hsla(var(--mood-hue,285),75%,68%,.16),transparent 70%)}
+
+/* ---------- PIN TIME NOTE — baris kecil yang mengikuti jam nyata
+   pengunjung (WIB), muncul di layar PIN paling pertama. ---------- */
+.pin-time-note{opacity:.75;font-style:italic}
+
+/* per-section floating glyph decor (generated by initSectionDecor in JS) */
+.section-decor{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.deco-item{
+  position:absolute;left:var(--dx);top:var(--dy);font-size:var(--dsize);
+  color:var(--dcolor);opacity:var(--dop);line-height:1;
+  filter:drop-shadow(0 0 8px currentColor);
+  animation:decoFloat var(--ddur) ease-in-out var(--ddelay) infinite alternate;
+}
+.deco-item.dot{
+  width:var(--dsize);height:var(--dsize);border-radius:50%;
+  background:var(--dcolor);box-shadow:0 0 10px currentColor;color:var(--dcolor);
+}
+@keyframes decoFloat{
+  0%{transform:translate(0,0) rotate(0deg)}
+  100%{transform:translate(var(--dxm),var(--dym)) rotate(var(--drot))}
+}
+.screen:not(.active) .section-decor .deco-item{animation-play-state:paused}
+
+/* ---------- METEOR — jejak cahaya besar yang melintas panjang secara
+   diagonal, beda dari .shooting-star (yang kecil & cepat). Dipakai
+   sesekali di layer #stars supaya kelihatan di semua slide. ---------- */
+.meteor{
+  position:absolute;top:0;left:0;z-index:0;pointer-events:none;
+  width:var(--mlen,220px);height:3px;border-radius:999px;
+  transform-origin:left center;
+  transform:translate(var(--mx0),var(--my0)) rotate(var(--mangle,-34deg)) scaleX(0);
+  background:linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,247,232,.55) 28%,
+    rgba(255,236,196,.92) 62%,
+    #fff 100%);
+  box-shadow:0 0 10px 1px rgba(255,236,196,.55);
+  opacity:0;
+  animation:meteorFly var(--mdur,2.4s) cubic-bezier(.2,.6,.25,1) forwards;
+}
+.meteor::before{
+  /* bright head of the meteor — dibuat kedip-kedip seperti bara api terbakar */
+  content:"";position:absolute;right:-3px;top:50%;width:9px;height:9px;
+  border-radius:50%;transform:translateY(-50%);
+  background:radial-gradient(circle,#fff 0%,rgba(255,214,140,.95) 40%,rgba(255,140,60,.5) 68%,rgba(255,140,60,0) 78%);
+  box-shadow:0 0 16px 5px rgba(255,196,110,.9),0 0 34px 14px rgba(255,110,40,.4),0 0 56px 22px rgba(232,120,177,.16);
+  animation:meteorFlicker .16s ease-in-out infinite alternate;
+}
+@keyframes meteorFlicker{
+  0%{filter:brightness(1) saturate(1)}
+  100%{filter:brightness(1.3) saturate(1.35)}
+}
+@keyframes meteorFly{
+  0%{transform:translate(var(--mx0),var(--my0)) rotate(var(--mangle,-34deg)) scaleX(0);opacity:0}
+  8%{opacity:1}
+  60%{transform:translate(var(--mx1),var(--my1)) rotate(var(--mangle,-34deg)) scaleX(1);opacity:1}
+  100%{transform:translate(var(--mx2),var(--my2)) rotate(var(--mangle,-34deg)) scaleX(1);opacity:0}
+}
+
+/* ---------- BARA API METEOR — percikan api kecil yang tertinggal
+   di sepanjang jalur meteor selagi terbang, memberi kesan benda
+   terbakar jatuh (bukan cuma jejak cahaya lurus). ---------- */
+.meteor-ember{
+  position:absolute;top:0;left:0;width:4px;height:4px;border-radius:50%;
+  pointer-events:none;z-index:0;
+  background:radial-gradient(circle,#fff6cf 0%,#ffb347 42%,#ff5722 75%,transparent 100%);
+  box-shadow:0 0 9px 2px rgba(255,110,40,.75);
+  animation:emberFall .5s ease-out forwards;
+}
+@keyframes emberFall{
+  0%{transform:translate(0,0) scale(1);opacity:1}
+  100%{transform:translate(var(--emx),var(--emy)) scale(.15);opacity:0}
+}
+
+/* ---------- KEMBANG API — khusus tampil di layar PIN sambil nunggu
+   countdown. Ledakan partikel kecil yang muncul & menyebar lalu
+   memudar, posisi & warna acak tiap kemunculan. ---------- */
+.firework-burst{position:absolute;left:0;top:0;width:0;height:0;z-index:0;pointer-events:none}
+.firework-particle{
+  position:absolute;left:0;top:0;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;
+  background:hsl(var(--fhue,340) 90% 65%);
+  box-shadow:0 0 8px 2px hsl(var(--fhue,340) 95% 70% / .8);
+  opacity:0;
+  animation:fireworkPop .95s var(--fdelay,0s) cubic-bezier(.15,.75,.3,1) forwards;
+}
+.firework-particle::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,transparent 70%);opacity:.85;
+}
+@keyframes fireworkPop{
+  0%{transform:translate(0,0) scale(.5);opacity:0}
+  10%{opacity:1;transform:translate(0,0) scale(1)}
+  70%{opacity:.9}
+  100%{transform:translate(var(--fx),var(--fy)) scale(.25);opacity:0}
+}
+
+/* ---------- GALAXY BACKGROUND — khusus layar PIN. Nebula spiral yang
+   berputar pelan + inti bercahaya + kabut debu bintang + bintang kecil
+   berkedip (di-generate JS via #galaxyStars). Diam otomatis begitu
+   #pin tidak aktif karena section .screen non-aktif disembunyikan. ---------- */
+.galaxy-bg{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  border-radius:inherit;
+}
+.galaxy-spiral{
+  position:absolute;top:50%;left:50%;width:min(760px,150vw);height:min(760px,150vw);
+  transform:translate(-50%,-50%) rotate(0deg);
+  background:
+    conic-gradient(from 0deg,
+      rgba(124,64,152,0) 0deg,
+      rgba(124,64,152,.32) 40deg,
+      rgba(226,105,155,.24) 95deg,
+      rgba(124,64,152,0) 150deg,
+      rgba(184,154,242,.26) 220deg,
+      rgba(226,105,155,.20) 275deg,
+      rgba(124,64,152,0) 330deg,
+      rgba(124,64,152,0) 360deg);
+  border-radius:50%;
+  filter:blur(26px);
+  opacity:.55;
+  animation:galaxySpin 70s linear infinite;
+  mix-blend-mode:screen;
+}
+.galaxy-spiral-2{
+  width:min(560px,110vw);height:min(560px,110vw);
+  opacity:.4;filter:blur(18px);
+  animation:galaxySpin 46s linear infinite reverse;
+}
+@keyframes galaxySpin{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+.galaxy-core{
+  position:absolute;top:50%;left:50%;width:120px;height:120px;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(255,244,222,.85) 0%,rgba(226,105,155,.45) 38%,transparent 72%);
+  filter:blur(6px);
+  animation:galaxyCorePulse 5.5s ease-in-out infinite;
+}
+@keyframes galaxyCorePulse{
+  0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.18)}
+}
+.galaxy-dust{
+  position:absolute;inset:-10%;
+  background:radial-gradient(120% 70% at 30% 20%,rgba(124,64,152,.18),transparent 60%),
+             radial-gradient(100% 60% at 75% 80%,rgba(226,105,155,.14),transparent 55%);
+  animation:galaxyDustDrift 22s ease-in-out infinite alternate;
+}
+@keyframes galaxyDustDrift{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(2%,-2%) scale(1.05)}
+}
+.galaxy-star-field{position:absolute;inset:0}
+.galaxy-star{
+  position:absolute;border-radius:50%;background:#fff;
+  box-shadow:0 0 4px 1px rgba(255,255,255,.75);
+  animation:galaxyTwinkle var(--gdur,3s) ease-in-out var(--gdelay,0s) infinite;
+}
+@keyframes galaxyTwinkle{
+  0%,100%{opacity:var(--gmin,.15)}
+  50%{opacity:var(--gmax,.95)}
+}
+
+/* ---------- FALLBACK POPUP MUSIK — muncul sebagai modal di tengah layar
+   (bukan cuma pill kecil di pojok) kalau browser (mis. Brave Shields
+   "Block Autoplay") menolak audio otomatis, biar nggak gampang terlewat. ---------- */
+.pin-music-overlay{
+  position:fixed;inset:0;z-index:80;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  background:rgba(12,6,18,.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  animation:pmoFadeIn .35s ease both;
+}
+.pin-music-overlay[hidden]{display:none}
+@keyframes pmoFadeIn{from{opacity:0}to{opacity:1}}
+.pin-music-modal{
+  width:min(340px,88vw);text-align:center;
+  padding:30px 26px 24px;border-radius:26px;
+  border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(180deg,rgba(46,22,58,.96),rgba(26,12,34,.98));
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(255,255,255,.04) inset;
+  animation:pmmPopIn .4s var(--ease-out,cubic-bezier(.2,.8,.2,1)) both;
+}
+@keyframes pmmPopIn{
+  from{opacity:0;transform:translateY(10px) scale(.94)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+.pmm-icon{font-size:34px;margin-bottom:10px;animation:pmfPulse 1.8s ease-in-out infinite}
+.pmm-title{font-family:var(--font-display);font-size:19px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.pmm-copy{font:400 13px/1.5 var(--font-body);color:var(--muted);margin-bottom:20px}
+.pin-music-fallback{
+  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  padding:14px 18px;border-radius:999px;border:none;
+  background:var(--grad-primary);color:#fff;
+  font:600 14.5px/1 var(--font-body);letter-spacing:.01em;
+  box-shadow:var(--glow-magenta);cursor:pointer;
+}
+.pmf-icon{font-size:16px}
+.pmm-blocked-note{
+  margin:12px 0 0;padding:10px 12px;border-radius:12px;text-align:left;
+  font:500 11.5px/1.5 var(--font-body);color:var(--amber-bright);
+  background:rgba(232,120,177,.1);border:1px solid rgba(232,120,177,.25);
+}
+.pmm-blocked-note[hidden]{display:none}
+.pmm-skip{
+  display:block;margin:14px auto 0;padding:4px 8px;background:none;border:none;
+  font:500 12px var(--font-body);color:var(--muted-2);letter-spacing:.02em;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer;
+}
+@keyframes pmfPulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.08)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  body::before,.deco-item,.space-asteroid,.space-satellite,.space-flash,.space-spark,.space-shockwave,.space-debris,.shooting-star,.meteor,.meteor-ember,.firework-particle{animation:none!important;display:none}
+  .distant-planet{animation:none!important}
+  .galaxy-spiral,.galaxy-core,.galaxy-dust,.galaxy-star{animation:none!important}
+}
+
+/* =============================================================
+   LAYOUT / SCREEN
+   ============================================================= */
+.screen{
+  position:absolute;top:0;left:0;right:0;bottom:var(--nav-clearance,150px);
+  display:grid;place-items:center;
+  padding:30px calc(20px + env(safe-area-inset-right,0px)) 20px calc(20px + env(safe-area-inset-left,0px));
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateY(14px) scale(.985);
+  transition:opacity .6s ease,transform .75s var(--ease-soft),visibility .6s;
+  z-index:2;
+}
+.screen{place-items:safe center;overflow-y:auto}
+.screen.active{opacity:1;visibility:visible;pointer-events:auto;transform:none}
+.screen.active .card > *{animation:contentRise .55s var(--ease-out) both}
+.screen.active .card > *:nth-child(2){animation-delay:.03s}
+.screen.active .card > *:nth-child(3){animation-delay:.07s}
+.screen.active .card > *:nth-child(4){animation-delay:.11s}
+.screen.active .card > *:nth-child(5){animation-delay:.15s}
+.screen.active .card > *:nth-child(6){animation-delay:.19s}
+.screen.active .card > *:nth-child(7){animation-delay:.23s}
+.screen.active .card > *:nth-child(8){animation-delay:.27s}
+@keyframes contentRise{from{opacity:0;transform:translateY(12px)}to{opacity:1}}
+
+/* decorative ambient orbs / aura behind specific cards */
+.scene-aura,.orb,.candle-aura,.celebrate-aura{position:absolute;pointer-events:none;z-index:0;border-radius:50%;filter:blur(50px)}
+.scene-aura{
+  width:min(520px,86vw);height:min(520px,86vw);
+  background:radial-gradient(circle,rgba(124,64,152,.30),transparent 68%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+}
+.scene-aura.peach{background:radial-gradient(circle,rgba(184,154,242,.22),transparent 68%)}
+.scene-aura.pink{background:radial-gradient(circle,rgba(226,105,155,.26),transparent 68%)}
+.orb{width:260px;height:260px;filter:blur(70px);opacity:.55}
+.orb-a{background:radial-gradient(circle,rgba(226,105,155,.4),transparent 70%);top:8%;left:-8%}
+.orb-b{background:radial-gradient(circle,rgba(124,64,152,.4),transparent 70%);bottom:6%;right:-10%}
+.candle-aura{
+  width:min(560px,90vw);height:min(560px,90vw);top:38%;left:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(201,161,90,.24),transparent 65%);
+}
+.celebrate-aura{
+  width:min(700px,120vw);height:min(700px,120vw);top:20%;left:50%;transform:translate(-50%,-50%);
+  background:
+    radial-gradient(circle,rgba(226,105,155,.22),transparent 55%),
+    radial-gradient(circle,rgba(124,64,152,.18),transparent 70%);
+  animation:auroraDrift 14s ease-in-out infinite alternate;
+}
+
+/* =============================================================
+   CARD SYSTEM
+   ============================================================= */
+.card{
+  position:relative;z-index:1;
+  width:min(440px,100%);
+  background:
+    linear-gradient(180deg,rgba(247,236,231,.05),rgba(247,236,231,.02)),
+    var(--glass-bg);
+  border:1px solid var(--glass-border);
+  border-radius:var(--radius-xl);
+  backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  box-shadow:var(--shadow-lift),inset 0 0 0 1px rgba(238,205,142,.06);
+  padding:clamp(30px,8vw,44px) clamp(18px,6vw,30px) clamp(24px,6vw,34px);
+  text-align:center;
+  overflow:hidden;
+}
+/* thin gold foil line tracing the card edge, like the deckled edge of a
+   printed invitation card */
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:var(--foil-line);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;
+  opacity:.85;
+}
+.card::after{
+  content:"";position:absolute;left:50%;top:-40%;width:140%;height:80%;
+  background:radial-gradient(closest-side,rgba(124,64,152,.16),transparent 72%);
+  transform:translateX(-50%);pointer-events:none;
+}
+/* ---------- CARD BORDER SHIMMER — sheen halus yang menyapu SEKALI di
+   sepanjang garis foil kartu tiap kali layar itu dibuka (bukan loop
+   nonstop — itu yang tadinya bikin berat/glitch di HP Android). Dipicu
+   ulang lewat class .page-enter yang sudah ditoggle showScreen() di
+   script.js tiap ganti slide, jadi otomatis replay setiap kunjungan
+   ke slide manapun, tanpa listener/markup tambahan. ---------- */
+body.page-enter .screen.active .card::before{
+  background-size:220% 220%;
+  animation:cardBorderShimmer 2.4s ease-out 1;
+}
+@keyframes cardBorderShimmer{
+  0%{background-position:0% 15%}
+  100%{background-position:160% 165%}
+}
+/* fleuron — small ornamental gold mark that opens every card, standing
+   in for a printed monogram/crest on a formal invitation */
+.corner{display:none}
+.card .eyebrow::before{
+  content:"";display:block;width:34px;height:9px;margin:0 auto 12px;
+  background:
+    radial-gradient(circle at 50% 50%,var(--amber-bright) 0 2px,transparent 2.5px),
+    linear-gradient(90deg,transparent,rgba(201,161,90,.7) 15%,rgba(201,161,90,.7) 85%,transparent);
+  background-repeat:no-repeat;
+  background-size:6px 6px,100% 1px;
+  background-position:center,center;
+}
+
+/* Padding kartu memakai clamp(min,preferred-vw,max) — jadi mengecil HALUS
+   mengikuti lebar layar (seperti "zoom out" bertahap), bukan lompat tiba-
+   tiba di satu breakpoint. Aman: cuma angka padding, tidak menyentuh
+   position/transform, jadi elemen fixed (music-toggle, progress-nav) sama
+   sekali tidak terpengaruh dan tidak mungkin rusak karena ini. */
+.experience-card{padding:clamp(32px,8vw,46px) clamp(18px,6vw,30px) clamp(26px,6vw,36px)}
+.wish-inner{padding:clamp(30px,8vw,42px) clamp(18px,6vw,28px) clamp(24px,6vw,32px)}
+
+@media(max-width:420px){
+  .card{border-radius:var(--radius-lg)}
+}
+
+/* =============================================================
+   TYPOGRAPHY
+   ============================================================= */
+.eyebrow{
+  display:block;font:600 11px/1 var(--font-body);letter-spacing:.22em;text-transform:uppercase;
+  color:transparent;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;
+  margin-bottom:14px;position:relative;
+}
+h1,h2{font-family:var(--font-display);font-weight:600;line-height:1.14;color:var(--ink);letter-spacing:-.01em}
+h1{font-size:clamp(30px,7vw,42px);margin-bottom:14px}
+h2{font-size:clamp(25px,6.4vw,34px);margin-bottom:14px}
+h1 span,h2 em{
+  font-style:italic;font-weight:600;
+  background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent;
+}
+p{font:400 15.5px/1.65 var(--font-body);color:var(--ink-dim)}
+.micro-copy{margin-top:14px;font:500 12px/1.5 var(--font-body);letter-spacing:.02em;color:var(--muted)}
+.signature{margin-top:18px;font:italic 500 14.5px/1.5 var(--font-display);color:var(--muted)}
+.type-text{
+  min-height:1.6em;white-space:pre-line;display:block;
+  line-height:1.20;letter-spacing:.005em;
+}
+.type-text::after{content:"▍";color:var(--amber-bright);animation:caretBlink 1s step-end infinite}
+@keyframes caretBlink{50%{opacity:0}}
+
+/* =============================================================
+   BUTTONS
+   ============================================================= */
+.primary-btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:15px 26px;border-radius:var(--radius-pill);
+  font:600 15px/1 var(--font-body);color:#fff;letter-spacing:.01em;
+  background:var(--grad-primary);box-shadow:var(--glow-magenta),0 1px 0 rgba(255,255,255,.25) inset;
+  isolation:isolate;overflow:hidden;
+  transition:transform .22s var(--ease-spring),box-shadow .3s var(--ease-out),filter .3s;
+}
+.primary-btn::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 20%,rgba(255,255,255,.35) 40%,transparent 60%);
+  transform:translateX(-120%);transition:transform .7s var(--ease-out);z-index:1;pointer-events:none;
+}
+.primary-btn:hover::before{transform:translateX(120%)}
+.primary-btn:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.primary-btn:active{transform:translateY(0) scale(.97)}
+.primary-btn .arrow{transition:transform .3s var(--ease-spring)}
+.primary-btn:hover .arrow{transform:translateX(3px)}
+.primary-btn:disabled{
+  opacity:.4;filter:grayscale(.3);cursor:not-allowed;box-shadow:none;
+  pointer-events:none;
+}
+
+.ghost-btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 24px;border-radius:var(--radius-pill);
+  font:600 13px/1 var(--font-body);color:var(--ink);letter-spacing:.02em;
+  background:rgba(247,236,231,.04);border:1px solid var(--glass-border-strong);
+  overflow:hidden;transition:transform .22s var(--ease-spring),background .3s,border-color .3s;
+}
+.ghost-btn:hover{background:rgba(217,200,255,.08);border-color:var(--amber-bright);transform:translateY(-1px)}
+.ghost-btn:active{transform:translateY(0) scale(.97)}
+.ghost-btn:disabled{opacity:.4;pointer-events:none}
+
+.text-btn{
+  font:600 13px/1 var(--font-body);color:var(--muted);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:rgba(148,141,189,.5);transition:color .25s;
+}
+.text-btn:hover{color:var(--ink)}
+
+.icon-btn{
+  width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.06);border:1px solid var(--glass-border);
+  font-size:16px;transition:transform .22s var(--ease-spring),background .25s;
+}
+.icon-btn:hover{background:rgba(238,205,142,.1);transform:translateY(-1px)}
+.icon-btn:active{transform:scale(.92)}
+
+.round-btn{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--glass-bg);border:1px solid var(--glass-border-strong);
+  color:var(--ink);font-size:18px;display:inline-flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-soft);animation:bounceHint 2.4s ease-in-out infinite;
+  transition:transform .25s var(--ease-spring);
+}
+.round-btn:hover{transform:scale(1.08)}
+@keyframes bounceHint{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* material ripple (spawned by JS on .primary-btn/.ghost-btn/etc) */
+.md-ripple{
+  position:absolute;border-radius:50%;background:rgba(255,255,255,.35);
+  transform:scale(0);pointer-events:none;animation:rippleOut .6s var(--ease-out) forwards;
+}
+@keyframes rippleOut{to{transform:scale(1);opacity:0}}
+
+/* tap sparkle particles (spawned on generic screen taps) */
+.tap-spark{
+  position:fixed;z-index:40;pointer-events:none;color:var(--amber-bright);
+  font-size:var(--tap-size,14px);
+  transform:translate(-50%,-50%);
+  animation:tapSpark .85s var(--ease-out) forwards;
+  filter:drop-shadow(0 0 6px currentColor);
+}
+@keyframes tapSpark{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(0deg)}
+  15%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1) rotate(var(--rot))}
+}
+
+/* =============================================================
+   MUSIC TOGGLE — satu kapsul kaca menyatu (tombol + equalizer jadi
+   satu bentuk, bukan dua elemen terpisah yang ditaruh bersebelahan)
+   ============================================================= */
+.music-toggle{
+  position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:calc(14px + env(safe-area-inset-left,0px));
+  z-index:50;display:flex;align-items:center;gap:9px;
+  padding:5px 14px 5px 5px;border-radius:var(--radius-pill);
+  background:var(--glass-bg);border:1px solid var(--glass-border);
+  box-shadow:var(--shadow-soft);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.music-toggle .icon-btn{
+  width:34px;height:34px;flex:none;
+  background:rgba(255,255,255,.08);border:none;box-shadow:none;
+}
+/* Equalizer versi baru: 5 batang gradasi amber->magenta di dalam kapsul
+   yang sama dengan tombol — tinggi & delay tiap batang beda supaya
+   gerakannya terasa lebih "hidup" (bukan naik-turun serempak). */
+.visualizer{
+  display:flex;align-items:flex-end;gap:3px;height:16px;padding:0;
+  background:none;border:none;box-shadow:none;
+}
+.visualizer i{
+  width:2.5px;min-height:3px;border-radius:2px;
+  background:linear-gradient(180deg,var(--amber-bright),var(--magenta));
+  box-shadow:0 0 4px rgba(255,196,120,.5);
+  animation:vzBar 1.1s ease-in-out infinite;
+}
+.visualizer i:nth-child(1){height:6px;animation-delay:0s}
+.visualizer i:nth-child(2){height:12px;animation-delay:.12s}
+.visualizer i:nth-child(3){height:16px;animation-delay:.24s}
+.visualizer i:nth-child(4){height:10px;animation-delay:.36s}
+.visualizer i:nth-child(5){height:14px;animation-delay:.48s}
+@keyframes vzBar{0%,100%{transform:scaleY(.35)}50%{transform:scaleY(1)}}
+body:not(.playing) .visualizer i{animation-play-state:paused;opacity:.4}
+
+/* =============================================================
+   PROGRESS NAV — floating glass dock
+   ============================================================= */
+.progress-nav{
+  position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%);
+  width:min(440px,calc(100% - 24px));
+  z-index:45;
+  background:linear-gradient(180deg,rgba(24,20,49,.82),rgba(14,11,28,.88));
+  border:1px solid var(--glass-border-strong);
+  border-radius:26px;
+  backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);
+  box-shadow:var(--shadow-lift);
+  padding:14px 16px 12px;
+}
+.progress-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.progress-title{display:flex;flex-direction:column;gap:2px;text-align:left}
+.progress-kicker{font:600 9px/1 var(--font-body);letter-spacing:.14em;color:var(--muted-2);text-transform:uppercase}
+.progress-label{font:600 13px/1 var(--font-body);color:transparent;background:var(--grad-text);-webkit-background-clip:text;background-clip:text}
+.progress-counter{font:600 11.5px/1 var(--font-body);color:var(--muted);letter-spacing:.03em}
+
+.progress-controls{display:flex;align-items:center;gap:10px}
+.progress-arrow{
+  flex:none;width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid var(--glass-border);
+  color:var(--ink);font-size:18px;display:flex;align-items:center;justify-content:center;
+  transition:transform .2s var(--ease-spring),background .25s;
+}
+.progress-arrow:hover{background:rgba(255,255,255,.13)}
+.progress-arrow:active{transform:scale(.9)}
+.progress-arrow:disabled{opacity:.3;pointer-events:none}
+
+.love-slider{position:relative;flex:1;height:38px;display:flex;align-items:center}
+.slider-track{position:absolute;left:0;right:0;height:5px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden}
+.slider-fill{display:block;height:100%;width:0%;border-radius:999px;background:var(--grad-primary);transition:width .35s var(--ease-out)}
+.progress-slider{
+  position:relative;width:100%;height:38px;margin:0;appearance:none;-webkit-appearance:none;background:transparent;z-index:2;
+  outline:none;-webkit-tap-highlight-color:transparent;
+}
+/* Safari renders a native white box for both the track and the thumb
+   unless every layer is explicitly cleared — appearance:none alone
+   isn't enough there like it is in Chrome. */
+.progress-slider::-webkit-slider-runnable-track{
+  -webkit-appearance:none;appearance:none;
+  background:transparent;border:none;box-shadow:none;height:38px;
+}
+.progress-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;
+  width:38px;height:38px;background:transparent;border:none;box-shadow:none;
+  -webkit-box-shadow:none;
+}
+.progress-slider::-moz-range-track{background:transparent;border:none;box-shadow:none;height:38px}
+.progress-slider::-moz-range-thumb{width:38px;height:38px;background:transparent;border:none;box-shadow:none}
+.progress-slider::-moz-focus-outer{border:0}
+.slider-heart{
+  position:absolute;top:50%;left:var(--slider-progress,0%);transform:translate(-50%,-50%);
+  width:26px;height:26px;border-radius:50%;pointer-events:none;
+  background:var(--grad-primary);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-size:12px;box-shadow:var(--glow-magenta),0 0 0 4px rgba(10,9,22,.9);
+  transition:left .1s linear;
+}
+.progress-hint{margin-top:8px;text-align:center;font:500 10.5px/1.4 var(--font-body);color:var(--muted-2)}
+.progress-hint span{color:var(--amber-bright);font-weight:600}
+
+/* =============================================================
+   PIN SCREEN
+   ============================================================= */
+.pin-input{
+  width:100%;max-width:260px;margin:8px auto 4px;padding:16px;text-align:center;
+  font:600 26px/1 var(--font-body);letter-spacing:.5em;color:var(--ink);
+  background:rgba(255,255,255,.05);border:1px solid var(--glass-border-strong);border-radius:var(--radius-md);
+  transition:border-color .25s,box-shadow .25s;
+}
+.pin-input:focus{border-color:var(--violet);box-shadow:0 0 0 4px rgba(124,64,152,.18)}
+.pin-input.shaking{animation:shake .45s}
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-8px)}
+  40%{transform:translateX(7px)}
+  60%{transform:translateX(-5px)}
+  80%{transform:translateX(4px)}
+}
+.pin-error{min-height:18px;margin-top:8px;font:600 12.5px/1.4 var(--font-body);color:var(--magenta)}
+
+.pin-actions{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  margin-top:2px;flex-wrap:wrap;
+}
+.pin-actions .primary-btn{margin:0}
+
+.pin-request-card{
+  margin-top:22px;padding:18px 18px 16px;border-radius:var(--radius-lg);
+  background:rgba(255,255,255,.035);border:1px dashed var(--glass-border-strong);
+  text-align:center;
+}
+.pin-request-eyebrow{font:600 10px/1 var(--font-body);letter-spacing:.14em;color:var(--muted-2);text-transform:uppercase;margin-bottom:8px}
+.pin-countdown{font:600 20px/1.3 var(--font-display);color:var(--amber-bright);margin-bottom:8px}
+.pin-countdown b{color:var(--magenta)}
+.pin-request-copy{font-size:13px;line-height:1.55;color:var(--muted);margin-bottom:0}
+.pin-request-copy b{color:var(--ink)}
+/* ---------- CYCLE THEME ACCENTS — dipicu class di <body> lewat
+   applyCycleTheme() di script.js, bukan lagi class di kartu itu sendiri,
+   supaya bisa juga mewarnai eyebrow/heading di atas kartu PIN. ---------- */
+/* epilogue: >30 hari sebelum 1 September — tenang & reflektif */
+body.cycle-epilogue .pin-request-card{border-style:solid;border-color:var(--glass-border)}
+body.cycle-epilogue .pin-countdown{color:var(--lavender,#b89af2);font-size:16px;font-style:italic}
+body.cycle-epilogue .pin-countdown b{color:var(--lavender-soft,#d9c8ff)}
+body.cycle-epilogue #pinEyebrow{color:var(--lavender,#b89af2)}
+/* countdown-close: 7 hari terakhir — lebih hidup/heboh */
+body.cycle-countdown-close .pin-request-card{border-style:solid;border-color:var(--magenta-dim,#c6538e)}
+body.cycle-countdown-close #pinEyebrow,
+body.cycle-countdown-close .pin-request-eyebrow{color:var(--magenta,#e878b1);animation:cycleHypePulse 1.8s ease-in-out infinite}
+@keyframes cycleHypePulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){
+  body.cycle-countdown-close #pinEyebrow,
+  body.cycle-countdown-close .pin-request-eyebrow{animation:none!important}
+}
+.pin-whatsapp-btn{display:inline-flex;width:auto;padding:15px 20px}
+
+/* =============================================================
+   PLAYLIST
+   ============================================================= */
+.playlist-sub{margin-bottom:16px}
+.playlist-list{
+  width:100%;max-height:min(44vh,260px);overflow-y:auto;display:flex;flex-direction:column;gap:10px;
+  margin-bottom:14px;padding-right:2px;
+}
+.playlist-item{
+  position:relative;display:flex;align-items:center;gap:12px;width:100%;
+  padding:11px 14px;border-radius:var(--radius-md);text-align:left;
+  background:rgba(255,255,255,.035);border:1px solid var(--glass-border);
+  transition:border-color .25s,background .25s,transform .2s var(--ease-spring);
+  cursor:pointer;
+}
+.playlist-item:hover{background:rgba(255,255,255,.07);transform:translateX(2px)}
+.playlist-item.picked{border-color:var(--violet);background:rgba(124,64,152,.12);box-shadow:var(--glow-violet)}
+.playlist-cover{
+  flex:none;width:42px;height:42px;border-radius:10px;position:relative;overflow:hidden;
+  background:linear-gradient(145deg,hsl(var(--item-hue,320) 85% 68%),hsl(calc(var(--item-hue,320) + 45) 80% 55%));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;
+}
+.playlist-cover::before{content:"♪";font-size:16px;opacity:.85}
+.playlist-item.playing .playlist-cover::after{
+  content:"";position:absolute;inset:0;background:rgba(0,0,0,.35);
+}
+.playlist-title{font:500 14.5px/1.3 var(--font-body);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.playlist-artist{font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.playlist-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;text-align:left}
+.playlist-play{
+  flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.08);color:var(--ink);font-size:12px;
+}
+/* penanda "sedang diputar" — nempel di item yang sedang aktif diputar
+   (default-nya item pertama, karena lagu itu sudah main dari layar PIN) */
+.playlist-badge{
+  display:none;flex:none;align-items:center;font:700 9.5px/1 var(--font-body);
+  letter-spacing:.04em;text-transform:uppercase;color:var(--amber-bright);
+  padding:4px 8px;border-radius:var(--radius-pill);
+  background:rgba(255,196,120,.12);border:1px solid rgba(255,196,120,.35);
+  white-space:nowrap;
+}
+.playlist-now{
+  display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:14px;
+  font:600 12px/1 var(--font-body);color:var(--amber-bright);
+}
+.playlist-now-dot{width:7px;height:7px;border-radius:50%;background:var(--amber-bright);box-shadow:0 0 8px var(--amber-bright);animation:pulseDot 1.2s ease-in-out infinite}
+@keyframes pulseDot{50%{opacity:.35;transform:scale(.7)}}
+
+/* =============================================================
+   MINIGAME — MEMORY MATCH
+   ============================================================= */
+.minigame-inner{padding-top:34px}
+.memory-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;margin:18px 0 12px;
+  perspective:800px;
+}
+.memory-card{
+  position:relative;aspect-ratio:1;border-radius:var(--radius-sm);cursor:pointer;
+  perspective:800px;
+}
+.memory-card-inner{
+  position:relative;width:100%;height:100%;transform-style:preserve-3d;
+  transition:transform .5s var(--ease-spring);
+}
+.memory-card.flipped .memory-card-inner,.memory-card.matched .memory-card-inner{transform:rotateY(180deg)}
+.memory-face{
+  position:absolute;inset:0;border-radius:var(--radius-sm);backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.memory-face.back{
+  background:linear-gradient(145deg,rgba(124,64,152,.35),rgba(226,105,155,.25));
+  border:1px solid var(--glass-border-strong);color:var(--amber-bright);font-size:18px;
+}
+.memory-face.front{
+  transform:rotateY(180deg);background:rgba(255,255,255,.05);border:1px solid var(--glass-border);
+}
+.memory-face.front img{width:100%;height:100%;object-fit:cover}
+.memory-card.matched .memory-face.front{border-color:var(--amber);box-shadow:0 0 0 2px var(--amber) inset,0 0 16px rgba(184,154,242,.5)}
+.memory-card.matched .memory-card-inner{animation:matchPop .5s var(--ease-spring)}
+@keyframes matchPop{0%{transform:rotateY(180deg) scale(1)}45%{transform:rotateY(180deg) scale(1.08)}100%{transform:rotateY(180deg) scale(1)}}
+
+/* =============================================================
+   INTRO
+   ============================================================= */
+.intro-card{padding-top:46px}
+.seal{
+  position:relative;width:84px;height:84px;margin:0 auto 18px;border-radius:50%;
+  background:var(--grad-primary);box-shadow:var(--glow-magenta);
+  display:flex;align-items:center;justify-content:center;
+  animation:sealPulse 2.6s ease-in-out infinite;
+}
+.seal-ring{
+  position:absolute;inset:-8px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);
+  animation:sealRing 2.6s ease-in-out infinite;
+}
+.seal-mark{font-size:30px;color:#fff}
+@keyframes sealPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes sealRing{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:0;transform:scale(1.35)}}
+.intro-copy{margin-bottom:20px}
+.hint{margin-top:12px;margin-bottom:4px;font:500 12px var(--font-body);color:var(--muted-2)}
+
+/* =============================================================
+   LETTER
+   ============================================================= */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:44;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:calc(16px + env(safe-area-inset-top,0px)) 18px 14px;
+}
+.topbar-title{font:600 11px/1 var(--font-body);letter-spacing:.16em;color:var(--muted);grid-column:2;justify-self:center;text-align:center}
+.topbar-right{display:flex;gap:8px;grid-column:3;justify-self:end}
+
+.letter-wrap{
+  display:grid;grid-template-columns:minmax(0,280px) minmax(0,360px);gap:22px;align-items:center;
+  width:min(760px,100%);
+}
+.photo-frame{
+  position:relative;border-radius:var(--radius-lg);overflow:hidden;aspect-ratio:4/5;
+  background:rgba(255,255,255,.04);border:1px solid var(--glass-border-strong);
+  box-shadow:var(--shadow-lift);
+}
+.photo-frame img{width:100%;height:100%;object-fit:cover}
+/* ---------- Kalau foto epilogue belum di-upload, browser bakal nampilin
+   ikon kecil "broken image" di pojok — nggak bisa dihilangkan total lewat
+   CSS, tapi background gelap di belakangnya bikin sisa area frame tetap
+   terlihat rapi (bukan kotak putih kosong yang nyolok). ---------- */
+.photo-frame{background:linear-gradient(160deg,#241533,#160c1f)}
+.photo-glow{position:absolute;inset:-30%;background:radial-gradient(circle,rgba(124,64,152,.3),transparent 65%);pointer-events:none;z-index:-1}
+.photo-label{
+  position:absolute;left:12px;bottom:12px;padding:6px 12px;border-radius:999px;
+  background:rgba(10,9,22,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font:600 10.5px var(--font-body);letter-spacing:.05em;color:var(--ink);
+}
+.letter-card{text-align:left;padding:32px 28px}
+.letter-date{font:600 11px var(--font-body);letter-spacing:.14em;color:var(--amber-bright);text-transform:uppercase;margin-bottom:10px}
+.letter-card h2{text-align:left}
+.letter-card p{text-align:left}
+.letter-card .signature{text-align:left}
+
+@media(max-width:700px){
+  .letter-wrap{grid-template-columns:1fr;max-width:340px;gap:18px}
+  .photo-frame{aspect-ratio:16/10}
+  .letter-card{text-align:center;padding:28px 24px}
+  .letter-card h2,.letter-card p,.letter-card .signature{text-align:center}
+}
+
+/* =============================================================
+   PIN + TIME CAPSULE — satu layar gabungan
+   ============================================================= */
+.capsule-notice{
+  margin:6px 0 16px;padding:14px 16px 12px;border-radius:var(--radius-lg);
+  background:rgba(238,205,142,.05);border:1px solid var(--glass-border);
+}
+.capsule-countdown{font:600 19px var(--font-display);color:var(--amber-bright)}
+.capsule-countdown b{color:var(--magenta);font-family:var(--font-body)}
+.pin-input-group{margin-top:2px}
+
+/* ---- compact layout: PIN input + "belum punya PIN" countdown both
+   fit on one screen with no scrolling, even on short phones ---- */
+.pin-inner{padding:26px 24px 22px}
+.pin-inner .eyebrow{margin-bottom:8px}
+.pin-inner .eyebrow::before{margin-bottom:8px}
+.pin-inner h2{font-size:clamp(22px,6vw,28px);line-height:1.12;margin-bottom:8px}
+.pin-inner > p{font-size:13.5px;line-height:1.45;margin-bottom:2px}
+.pin-inner .pin-input{padding:11px;margin:8px auto 2px;font-size:22px}
+.pin-inner .pin-error{min-height:14px;margin-top:4px;font-size:11.5px}
+.pin-inner .primary-btn{padding:12px 24px;font-size:14px;margin-top:2px}
+.pin-inner .pin-whatsapp-btn{padding:12px 18px;font-size:13px;margin-top:2px}
+.pin-inner .pin-input-group .micro-copy{margin-top:6px;font-size:10.5px}
+.pin-request-card{
+  margin-top:12px;padding:12px 14px 12px;border-radius:var(--radius-md);
+}
+.pin-request-eyebrow{margin-bottom:4px}
+.pin-countdown{font-size:16px;margin-bottom:4px}
+.pin-request-copy{font-size:11.5px;line-height:1.4;margin-bottom:0}
+@media(max-height:700px){
+  .pin-inner{padding:20px 22px 18px}
+  .pin-inner h2{font-size:clamp(20px,5.6vw,25px);margin-bottom:6px}
+  .pin-inner .eyebrow{margin-bottom:6px}
+  .pin-inner .pin-input{padding:9px;font-size:20px}
+  .pin-request-card{margin-top:8px;padding:10px 12px}
+}
+
+/* =============================================================
+   WISH / MEMORIES (shared "pill list" pattern)
+   ============================================================= */
+.wish-grid{display:flex;flex-direction:column;gap:10px;width:100%;margin:18px 0 22px}
+.wish-pill{
+  display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:var(--radius-md);
+  background:rgba(255,255,255,.04);border:1px solid var(--glass-border);
+  text-align:left;font:400 14px/1.5 var(--font-body);color:var(--ink-dim);
+  transition:transform .3s var(--ease-spring),border-color .3s;
+}
+.wish-pill:hover{transform:translateX(3px);border-color:var(--glass-border-strong)}
+.wish-pill span{
+  flex:none;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--grad-primary);color:#fff;font:700 11px var(--font-body);
+}
+
+/* =============================================================
+   MOOD CHECK-IN
+   ============================================================= */
+.mood-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin:18px 0 8px}
+.mood-btn{
+  display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 10px;border-radius:var(--radius-md);
+  background:rgba(255,255,255,.035);border:1px solid var(--glass-border);
+  font:500 12.5px var(--font-body);color:var(--ink-dim);
+  transition:transform .25s var(--ease-spring),border-color .25s,background .25s;
+}
+.mood-btn:hover{transform:translateY(-3px);background:rgba(255,255,255,.07)}
+.mood-btn.picked{border-color:var(--violet);background:rgba(124,64,152,.14);box-shadow:var(--glow-violet);color:var(--ink)}
+.mood-emoji{font-size:26px}
+.mood-response{min-height:20px;margin:12px 0 4px;font:500 13px var(--font-body);color:var(--amber-bright)}
+
+/* =============================================================
+   SPIRIT — flying papers (state machine driven by .thrown/.opened
+   on #flockStage; papers get --fx/--fy/--fr set inline per throw)
+   ============================================================= */
+.flock-stage{position:relative;width:100%;height:190px;margin:14px 0}
+.flock-papers{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.flock-paper{
+  position:absolute;width:28px;height:38px;border-radius:4px;
+  background:linear-gradient(145deg,#fff,rgba(255,255,255,.8));
+  box-shadow:0 8px 18px rgba(0,0,0,.4);
+  transform:translate(0,0) rotate(0deg) scale(.3);opacity:0;
+  transition:transform .7s var(--ease-spring),opacity .4s ease;
+}
+.flock-stage.thrown .flock-paper,.flock-stage.opened .flock-paper{
+  transform:translate(var(--fx),var(--fy)) rotate(var(--fr)) scale(1);opacity:1;
+}
+.flock-stage.opened .flock-paper{opacity:0;transition:opacity .5s ease .1s}
+.flock-btn{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  display:flex;align-items:center;justify-content:center;
+  width:max-content;padding:15px 22px;border-radius:var(--radius-pill);
+  background:var(--grad-amber);color:#241016;font:700 14px var(--font-body);white-space:nowrap;
+  box-shadow:0 10px 26px -6px rgba(201,161,90,.55);
+  transition:transform .3s var(--ease-spring),opacity .3s ease;
+}
+.flock-btn:hover{transform:translate(-50%,-50%) translateY(-2px) scale(1.02)}
+.flock-btn:active{transform:translate(-50%,-50%) scale(.96)}
+.flock-stage.thrown .flock-btn,.flock-stage.opened .flock-btn{opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.7)}
+.flock-reveal{
+  position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:16px;border-radius:var(--radius-lg);background:rgba(255,255,255,.05);border:1px solid var(--glass-border-strong);
+  opacity:0;transform:scale(.92);transition:opacity .4s var(--ease-out) .15s,transform .4s var(--ease-spring) .15s;pointer-events:none;
+}
+.flock-stage.opened .flock-reveal{opacity:1;transform:scale(1);pointer-events:auto}
+.paper-quote-mark{font-family:var(--font-display);font-size:34px;color:var(--amber-bright);line-height:.6}
+.flock-reveal p{font:italic 500 15px/1.5 var(--font-display);color:var(--ink)}
+.spirit-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;align-items:center}
+
+/* =============================================================
+   POLAROID GRID — semua foto langsung kelihatan sekaligus tanpa
+   perlu discroll (2 kolom × 2 baris), ganti dari carousel geser
+   horizontal yang sebelumnya cuma nampilin sebagian di layar sempit.
+   ============================================================= */
+.polaroid-stack{
+  position:relative;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;margin:20px 0 10px;
+}
+.polaroid{
+  position:relative;width:100%;
+  padding:10px 10px 32px;background:#f4ecdf;border-radius:6px;
+  box-shadow:0 16px 32px -10px rgba(0,0,0,.5);color:#2a1c24;
+  transition:transform .3s var(--ease-spring);
+}
+.polaroid:nth-child(odd){transform:rotate(-2deg)}
+.polaroid:nth-child(even){transform:rotate(1.6deg)}
+.polaroid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;background:#ddd}
+.polaroid figcaption{margin-top:8px;font:italic 500 11.5px var(--font-display);text-align:center;color:#3a2430;line-height:1.25}
+.polaroid-hint{opacity:.8}
+
+@media(max-width:360px){
+  .polaroid-stack{gap:10px}
+  .polaroid{padding:8px 8px 26px}
+  .polaroid figcaption{font-size:10.5px;margin-top:6px}
+}
+
+/* =============================================================
+   GIFT
+   ============================================================= */
+.step-label{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;font:600 11px var(--font-body);color:var(--muted)}
+.step-label i{width:26px;height:1px;background:var(--glass-border-strong)}
+.gift-object{
+  display:block;
+  position:relative;width:150px;height:135px;margin:6px auto 20px;
+  transition:transform .3s var(--ease-spring);
+}
+.gift-object:hover{transform:scale(1.05) translateY(-3px)}
+.gift-object:active{transform:scale(.96)}
+.gift-body{position:absolute;left:15px;right:15px;bottom:0;height:88px;border-radius:8px;background:linear-gradient(155deg,var(--magenta),var(--violet))}
+.gift-lid{position:absolute;left:6px;right:6px;top:24px;height:26px;border-radius:8px;background:linear-gradient(155deg,var(--violet),var(--magenta-dim));box-shadow:0 6px 14px rgba(0,0,0,.3)}
+.gift-ribbon-v{position:absolute;left:50%;top:0;bottom:0;width:16px;transform:translateX(-50%);background:linear-gradient(180deg,var(--amber-bright),var(--amber))}
+.gift-ribbon-h{position:absolute;left:6px;right:6px;top:24px;height:26px;background:linear-gradient(90deg,var(--amber-bright),var(--amber))}
+.gift-bow{
+  position:absolute;left:50%;top:-6px;transform:translateX(-50%);width:34px;height:34px;border-radius:50%;
+  background:var(--grad-amber);display:flex;align-items:center;justify-content:center;color:#241016;font-size:14px;
+  box-shadow:0 6px 14px rgba(184,154,242,.5);
+}
+.choices{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.choice-hint,#choiceHint{margin-top:12px}
+
+/* =============================================================
+   NOPE
+   ============================================================= */
+.nope-card .reaction{font-size:44px;margin-bottom:10px}
+.nope-actions{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:18px}
+
+/* =============================================================
+   CANDLE
+   ============================================================= */
+.wish-note{
+  width:100%;margin:16px auto 18px;padding:16px 18px 14px;border-radius:var(--radius-lg);
+  background:rgba(255,255,255,.035);border:1px solid var(--glass-border);text-align:left;
+  transition:border-color .3s;
+}
+.wish-note-label{font:600 10px var(--font-body);letter-spacing:.08em;color:var(--amber-bright);margin-bottom:8px;text-align:center}
+.wish-note-input{
+  width:100%;min-height:64px;padding:11px 13px;border-radius:var(--radius-sm);resize:vertical;
+  background:rgba(0,0,0,.2);border:1px solid var(--glass-border);color:var(--ink);
+  font:400 14px/1.5 var(--font-body);
+}
+.wish-note-input:focus{border-color:var(--violet)}
+.wish-note-input::placeholder{color:var(--muted-2)}
+.wish-note-seal{display:flex;width:100%;margin-top:10px}
+.wish-note.sealed .wish-note-input{opacity:.55;pointer-events:none}
+.wish-note.sealed .wish-note-seal{opacity:.5;pointer-events:none}
+.wish-note.sealed::after{
+  content:"🔒 tersegel";position:absolute;top:10px;right:14px;font:600 10px var(--font-body);color:var(--amber-bright);
+}
+.wish-note{position:relative}
+
+/* Every piece is positioned absolutely with fixed offsets inside a
+   fixed-size stage, instead of relying on normal document flow to
+   stack them. This makes the candle sit physically inside the cake
+   with no possible gap, on any device or DPR — a flow-based stack
+   here was fragile (any stray margin/line-height from the browser
+   could visibly separate the candle from the cake). */
+.cake-scene{position:relative;width:240px;height:230px;margin:16px auto 4px}
+.flame-wrap{position:absolute;left:50%;top:0;transform:translateX(-50%);cursor:pointer;padding:12px;z-index:5}
+.flame{
+  position:relative;width:13px;height:24px;margin:0 auto;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+  background:linear-gradient(180deg,#f5e6c0,var(--amber-bright) 40%,var(--magenta) 100%);
+  box-shadow:0 0 18px 4px rgba(201,161,90,.7);
+  animation:flameFlicker 1.4s ease-in-out infinite;transform-origin:bottom center;
+}
+@keyframes flameFlicker{
+  0%,100%{transform:scaleY(1) rotate(-1deg)}
+  50%{transform:scaleY(1.08) rotate(2deg)}
+}
+.cake-scene.blown .flame{animation:blow .7s ease forwards}
+@keyframes blow{to{transform:scaleY(0) translateY(20px);opacity:0}}
+.cake-scene.blown .flame-wrap{pointer-events:none}
+.cake-scene.locked .flame-wrap{pointer-events:none;opacity:.55}
+.wick{position:absolute;left:50%;top:36px;transform:translateX(-50%);width:4px;height:14px;background:#3a2b1c;border-radius:1px;z-index:4}
+.candle-stick{
+  position:absolute;left:50%;top:46px;transform:translateX(-50%);
+  width:18px;height:58px;border-radius:4px;z-index:3;
+  background:repeating-linear-gradient(180deg,var(--magenta) 0 8px,var(--violet) 8px 16px);
+  box-shadow:0 4px 10px rgba(0,0,0,.35);
+}
+.cake-top{
+  position:absolute;left:50%;top:96px;transform:translateX(-50%);
+  width:200px;height:30px;border-radius:50%;z-index:2;
+  background:linear-gradient(180deg,#fff,#f0dfe6);box-shadow:0 6px 0 rgba(0,0,0,.08);
+}
+.cake-body{
+  position:absolute;left:50%;top:108px;transform:translateX(-50%);
+  width:224px;height:88px;border-radius:10px 10px 26px 26px;z-index:1;
+  background:linear-gradient(180deg,#f5e3e8,#eccdd6);overflow:hidden;
+  box-shadow:0 18px 30px -8px rgba(0,0,0,.4);
+}
+.cream{position:absolute;left:0;right:0;height:12px;background:#fff}
+.cream1{top:0}
+.cream2{bottom:20px}
+.sprinkles{position:absolute;bottom:5px;left:0;right:0;text-align:center;color:var(--amber);letter-spacing:6px;font-size:11px}
+.plate{
+  position:absolute;left:50%;top:194px;transform:translateX(-50%);
+  width:250px;height:15px;border-radius:50%;
+  background:rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+.candle-actions{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:10px}
+.candle-actions.locked .primary-btn,.candle-actions.locked .ghost-btn{opacity:.45}
+
+/* =============================================================
+   WISH-STAR MODE — reskin visual "kue+lilin" jadi "bintang harapan"
+   dipakai kalau layar kue dibuka pas EPILOGUE (>30 hari sebelum ulang
+   tahun berikutnya). Sengaja nggak nambah elemen/markup baru sama
+   sekali — cuma nyembunyiin bagian kue (cake-top/cake-body/plate/
+   candle-stick/wick) dan menggambar-ulang .flame yang sudah ada jadi
+   bentuk bintang bercahaya lewat clip-path. Semua logic tap/tiup di
+   script.js (finishCelebration dst) tetap sama persis, cuma kulitnya
+   yang beda — jadi nggak ada resiko ngerusak alur unlock yang sudah ada. */
+body.candle-epilogue-mode .cake-top,
+body.candle-epilogue-mode .cake-body,
+body.candle-epilogue-mode .plate,
+body.candle-epilogue-mode .candle-stick,
+body.candle-epilogue-mode .wick{display:none}
+body.candle-epilogue-mode .cake-scene{height:150px}
+body.candle-epilogue-mode .flame-wrap{top:38px}
+body.candle-epilogue-mode .flame{
+  width:34px;height:34px;border-radius:0;margin:0 auto;
+  background:linear-gradient(160deg,#fff6df,var(--lavender-soft,#d9c8ff) 45%,var(--lavender,#b89af2) 100%);
+  clip-path:polygon(50% 0%,63% 35%,100% 38%,72% 60%,82% 100%,50% 78%,18% 100%,28% 60%,0% 38%,37% 35%);
+  box-shadow:0 0 26px 6px rgba(184,154,242,.55);
+  animation:wishStarTwinkle 2.2s ease-in-out infinite;
+}
+@keyframes wishStarTwinkle{
+  0%,100%{transform:scale(1) rotate(0deg);opacity:1}
+  50%{transform:scale(1.1) rotate(8deg);opacity:.85}
+}
+body.candle-epilogue-mode .cake-scene.blown .flame{animation:wishStarRelease .7s ease forwards}
+@keyframes wishStarRelease{to{transform:scale(.2) translateY(-60px);opacity:0}}
+@media (prefers-reduced-motion:reduce){
+  body.candle-epilogue-mode .flame{animation:none!important}
+}
+
+/* =============================================================
+   FLOWER / BOUQUET — real bouquet photo, framed with a glow +
+   drifting sparkles so it still feels like part of the card scene
+   instead of a plain dropped-in image.
+   ============================================================= */
+.bouquet-scene{
+  position:relative;width:100%;max-width:360px;margin:16px auto -4px;
+  display:grid;place-items:center;
+}
+/* soft luxe glow blooming behind the bouquet */
+.bouquet-glow{
+  position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);
+  width:112%;height:88%;
+  background:
+    radial-gradient(46% 40% at 50% 46%, rgba(201,161,90,.30), transparent 72%),
+    radial-gradient(60% 52% at 42% 58%, rgba(226,105,155,.28), transparent 70%),
+    radial-gradient(58% 50% at 62% 40%, rgba(124,64,152,.26), transparent 70%);
+  filter:blur(26px);
+  animation:bouquetGlowPulse 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes bouquetGlowPulse{0%,100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}}
+
+.bouquet-photo{
+  position:relative;z-index:1;width:100%;height:auto;
+  filter:drop-shadow(0 18px 30px rgba(0,0,0,.45)) drop-shadow(0 2px 10px rgba(226,105,155,.25));
+  opacity:0;transform:translateY(34px) scale(.82);
+}
+/* gated behind .bloom-in (toggled by JS on every screen visit) so the
+   entrance replays each time this screen is shown, not just on first load */
+.bouquet-scene.bloom-in .bouquet-photo{animation:flowerRise .8s var(--ease-spring) both}
+@keyframes flowerRise{from{opacity:0;transform:translateY(34px) scale(.82)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* drifting gold sparkles scattered over the bouquet, on top of the photo */
+.bouquet-sparkles{position:absolute;inset:0;z-index:2;pointer-events:none}
+.bouquet-sparkles i{
+  position:absolute;width:5px;height:5px;border-radius:50%;
+  background:var(--amber-bright);
+  box-shadow:0 0 8px 2px rgba(255,210,122,.85);
+  opacity:0;animation:sparkleTwinkle 2.6s ease-in-out infinite;
+}
+.bouquet-sparkles i:nth-child(1){left:12%;top:18%;animation-delay:.1s}
+.bouquet-sparkles i:nth-child(2){left:82%;top:14%;animation-delay:.6s;width:4px;height:4px}
+.bouquet-sparkles i:nth-child(3){left:68%;top:32%;animation-delay:1.1s}
+.bouquet-sparkles i:nth-child(4){left:22%;top:44%;animation-delay:1.6s;width:4px;height:4px}
+.bouquet-sparkles i:nth-child(5){left:88%;top:52%;animation-delay:.35s}
+.bouquet-sparkles i:nth-child(6){left:6%;top:60%;animation-delay:1.9s;width:4px;height:4px}
+.bouquet-sparkles i:nth-child(7){left:52%;top:10%;animation-delay:.85s}
+.bouquet-sparkles i:nth-child(8){left:40%;top:56%;animation-delay:1.4s;width:4px;height:4px}
+@keyframes sparkleTwinkle{
+  0%,100%{opacity:0;transform:scale(.4) rotate(0deg)}
+  50%{opacity:1;transform:scale(1.15) rotate(90deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .bouquet-glow,.bouquet-sparkles i{animation:none;opacity:.6}
+}
+
+/* =============================================================
+   GIFT MAP — kado fisik BELUM dikirim (Serang → Jogja)
+   "Live tracker" card ala aplikasi kirim premium: langit berlapis,
+   grid peta halus, rute putus-putus yang mengalir, dua location-chip
+   (Serang/Jogja) dengan halo lembut, kado yang masih "standby" di
+   titik asal dikelilingi cincin menunggu, status chip mengambang,
+   dan mini stepper pengiriman di bawah peta — semua menegaskan:
+   kado sudah siap, tinggal menunggu jawaban form di bawahnya.
+   ============================================================= */
+.giftmap-card{max-width:420px}
+
+.map-scene{
+  position:relative;width:100%;max-width:372px;margin:22px auto 14px;
+  aspect-ratio:320/170;border-radius:22px;overflow:hidden;isolation:isolate;
+  background:
+    radial-gradient(120% 90% at 12% 88%, rgba(184,154,242,.16), transparent 60%),
+    radial-gradient(120% 90% at 90% 18%, rgba(232,120,177,.15), transparent 60%),
+    linear-gradient(160deg, rgba(250,242,255,.05), rgba(250,242,255,.015));
+  border:1px solid var(--glass-border);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.03), 0 22px 48px -18px rgba(5,2,10,.65);
+}
+
+/* deep atmospheric base — subtle aurora bands so the scene reads as
+   "night journey" rather than a flat gradient rectangle */
+.map-sky{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(70% 55% at 20% 100%, rgba(143,98,216,.28), transparent 70%),
+    radial-gradient(65% 55% at 100% 0%, rgba(232,120,177,.22), transparent 70%),
+    linear-gradient(200deg, var(--bg-3) 0%, var(--bg-2) 55%, var(--bg) 100%);
+}
+
+/* faint graticule — concentric "topography" rings + soft crossing
+   lines, gives an illustrated-map read without needing a real tile */
+.map-grid{
+  position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:
+    repeating-radial-gradient(circle at 18% 92%, rgba(217,200,255,.10) 0 1px, transparent 1px 22px),
+    repeating-radial-gradient(circle at 96% 12%, rgba(232,120,177,.09) 0 1px, transparent 1px 24px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 30px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 30px);
+  mask-image:radial-gradient(ellipse 80% 75% at 50% 55%, black 45%, transparent 92%);
+}
+
+/* watercolor blobs — bercak cat air lembut sebagai "medan" di sekitar kedua kota,
+   murni CSS radial-gradient berlapis, tetap di palet lavender/violet/magenta */
+.map-watercolor{
+  position:absolute;border-radius:50%;filter:blur(18px);mix-blend-mode:screen;opacity:.5;
+  pointer-events:none;
+}
+.map-watercolor-a{
+  width:46%;aspect-ratio:1;left:-6%;top:58%;transform:translateY(-50%);
+  background:radial-gradient(circle,rgba(184,154,242,.5),rgba(184,154,242,0) 70%);
+}
+.map-watercolor-b{
+  width:52%;aspect-ratio:1;left:64%;top:8%;
+  background:radial-gradient(circle,rgba(232,120,177,.42),rgba(232,120,177,0) 70%);
+}
+
+/* tiny drifting stars scattered across the sky layer, twinkling like
+   the bouquet sparkles elsewhere in the deck — keeps the palette in
+   family while adding depth */
+.map-stars{position:absolute;inset:0;pointer-events:none;z-index:1}
+.map-stars i{
+  position:absolute;width:2.5px;height:2.5px;border-radius:50%;
+  background:var(--lavender-soft);box-shadow:0 0 6px 1.5px rgba(217,200,255,.8);
+  opacity:0;animation:mapStarTwinkle 3.2s ease-in-out infinite;
+}
+.map-stars i:nth-child(1){left:14%;top:14%;animation-delay:.1s}
+.map-stars i:nth-child(2){left:34%;top:22%;animation-delay:1.3s;width:2px;height:2px}
+.map-stars i:nth-child(3){left:52%;top:10%;animation-delay:.6s}
+.map-stars i:nth-child(4){left:70%;top:20%;animation-delay:2s;width:2px;height:2px}
+.map-stars i:nth-child(5){left:86%;top:30%;animation-delay:.9s}
+.map-stars i:nth-child(6){left:6%;top:38%;animation-delay:1.7s;width:2px;height:2px}
+.map-stars i:nth-child(7){left:46%;top:80%;animation-delay:.4s}
+.map-stars i:nth-child(8){left:62%;top:88%;animation-delay:2.3s;width:2px;height:2px}
+.map-stars i:nth-child(9){left:24%;top:92%;animation-delay:1.1s}
+.map-stars i:nth-child(10){left:96%;top:60%;animation-delay:1.9s;width:2px;height:2px}
+.map-stars i:nth-child(11){left:80%;top:70%;animation-delay:.7s}
+.map-stars i:nth-child(12){left:38%;top:52%;animation-delay:2.6s;width:2px;height:2px}
+@keyframes mapStarTwinkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:1;transform:scale(1.15)}}
+
+.map-texture{
+  position:absolute;inset:0;opacity:.45;pointer-events:none;
+  background-image:
+    radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size:14px 14px;
+  mask-image:radial-gradient(ellipse at 50% 50%, black 40%, transparent 85%);
+}
+
+/* floating status chip — replaces the old circular stamp with a
+   live-tracker style pill, pulsing dot up front like a real courier app */
+.map-status-chip{
+  position:absolute;left:10px;top:10px;z-index:3;
+  display:flex;align-items:center;gap:6px;
+  padding:6px 12px 6px 9px;border-radius:var(--radius-pill);
+  background:rgba(20,12,32,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--glass-border-strong);
+  font:600 8.5px/1 var(--font-body);letter-spacing:.06em;color:var(--ink-dim);
+  box-shadow:0 8px 20px -10px rgba(5,2,10,.7);
+}
+.map-status-dot{
+  width:6px;height:6px;border-radius:50%;flex:none;
+  background:var(--magenta);box-shadow:0 0 0 3px rgba(232,120,177,.22);
+  animation:mapStatusPulse 1.7s ease-in-out infinite;
+}
+@keyframes mapStatusPulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(232,120,177,.22)}
+  50%{box-shadow:0 0 0 6px rgba(232,120,177,.06)}
+}
+
+.map-compass{
+  position:absolute;right:10px;top:10px;z-index:3;font-size:13px;color:var(--lavender-soft);
+  opacity:.6;animation:mapCompassSpin 12s linear infinite;
+}
+@keyframes mapCompassSpin{to{transform:rotate(360deg)}}
+
+.map-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:1}
+.map-route-glow{
+  fill:none;stroke:var(--lavender);stroke-width:8;stroke-linecap:round;
+  opacity:.16;filter:blur(3px);
+}
+.map-route-remain{
+  fill:none;stroke:rgba(229,214,238,.3);stroke-width:2;
+  stroke-dasharray:1 8;stroke-linecap:round;
+}
+.map-route-shimmer{
+  fill:none;stroke:url(#ribbonGrad);stroke-width:2.8;stroke-linecap:round;
+  stroke-dasharray:9 16;
+  filter:drop-shadow(0 0 6px rgba(184,154,242,.5));
+  animation:mapFlow 2.6s linear infinite;
+}
+@keyframes mapFlow{to{stroke-dashoffset:-50}}
+.map-pin-halo{animation:mapHaloBreathe 2.8s ease-in-out infinite;transform-origin:center}
+.map-pin-halo-end{animation-delay:.5s}
+@keyframes mapHaloBreathe{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+.map-pin-dot{fill:var(--ink);opacity:.9}
+.map-pin-dot.map-pin-start{fill:var(--lavender-soft)}
+.map-pin-dot.map-pin-end{fill:var(--magenta)}
+
+/* location chips — small glass badge (emoji) + stacked label,
+   anchored the same way the old text-only pins were, just dressed up */
+.map-pin{
+  position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;
+  transform:translate(-50%,-100%);text-align:center;
+}
+.map-pin-a{left:8.75%;top:73%}
+.map-pin-b{left:91.25%;top:43.5%}
+.map-pin-badge{
+  display:grid;place-items:center;width:24px;height:24px;border-radius:50%;
+  background:rgba(20,12,32,.7);border:1.5px solid var(--lavender-soft);
+  box-shadow:0 0 0 3px rgba(184,154,242,.14),0 6px 14px -6px rgba(5,2,10,.7);
+}
+.map-pin-badge-end{border-color:var(--magenta);box-shadow:0 0 0 3px rgba(232,120,177,.16),0 6px 14px -6px rgba(5,2,10,.7)}
+.map-pin-emoji{font-size:11.5px;line-height:1}
+.map-pin-tag{white-space:nowrap;text-shadow:0 2px 8px rgba(5,2,10,.8)}
+.map-pin-tag b{font:600 11px var(--font-body);color:var(--ink);letter-spacing:.01em}
+
+/* kado masih "standby" persis di titik asal (Serang) — dikelilingi
+   cincin putus-putus yang berputar pelan, seolah menunggu sinyal kirim */
+.map-gift-marker{
+  position:absolute;left:8.75%;top:73%;transform:translate(-50%,-195%);
+  display:grid;place-items:center;z-index:2;
+}
+.map-gift-ring{
+  position:absolute;width:38px;height:38px;border-radius:50%;
+  border:1.5px dashed rgba(217,200,255,.55);
+  animation:mapGiftRingSpin 7s linear infinite;
+}
+@keyframes mapGiftRingSpin{to{transform:rotate(360deg)}}
+.map-gift-pulse{
+  position:absolute;width:30px;height:30px;border-radius:50%;
+  background:radial-gradient(circle,rgba(184,154,242,.5),transparent 70%);
+  animation:mapGiftPulse 1.8s ease-out infinite;
+}
+@keyframes mapGiftPulse{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.9);opacity:0}}
+.map-gift-platform{
+  position:relative;z-index:1;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(155deg,rgba(184,154,242,.28),rgba(232,120,177,.2));
+  border:1px solid var(--glass-border-strong);
+  box-shadow:0 8px 16px -6px rgba(5,2,10,.7);
+}
+.map-gift-icon{
+  font-size:14px;line-height:1;display:inline-block;
+  filter:drop-shadow(0 4px 6px rgba(0,0,0,.45));
+  animation:mapGiftBob 2.4s ease-in-out infinite;
+}
+@keyframes mapGiftBob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-3px) rotate(4deg)}}
+
+/* eta / status pill floating at the bottom of the scene */
+.map-eta-chip{
+  position:absolute;left:50%;bottom:9px;transform:translateX(-50%);z-index:3;
+  display:flex;align-items:center;gap:6px;max-width:88%;
+  padding:6px 13px;border-radius:var(--radius-pill);white-space:nowrap;
+  background:rgba(20,12,32,.66);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--glass-border);
+  font:500 9.5px/1 var(--font-body);letter-spacing:.01em;color:var(--ink-dim);
+  box-shadow:0 10px 22px -12px rgba(5,2,10,.75);
+}
+.map-eta-chip span:first-child{font-weight:700;color:var(--lavender-soft)}
+.map-eta-chip i{width:3px;height:3px;border-radius:50%;background:var(--muted);flex:none}
+
+.map-note{margin-top:4px}
+
+/* mini shipping stepper — echoes real courier-app tracking, makes
+   explicit that the gift is staged and simply waiting on the form */
+.ship-tracker{
+  display:flex;align-items:flex-start;justify-content:center;gap:0;
+  max-width:340px;margin:0 auto 4px;padding:2px 4px;
+}
+.ship-step{display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;width:52px}
+.ship-step-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1.5px solid var(--glass-border-strong);
+}
+.ship-step-label{font:600 7.5px/1.25 var(--font-body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted-2)}
+.ship-step-line{
+  flex:1 1 auto;height:1.5px;margin:4px -2px 0;min-width:12px;
+  background-image:linear-gradient(90deg, rgba(217,200,255,.28) 0 4px, transparent 4px 9px);
+  background-size:9px 1.5px;
+}
+.ship-step.is-active .ship-step-dot{
+  background:var(--grad-amber);border-color:transparent;
+  box-shadow:0 0 0 4px rgba(232,120,177,.2);
+  animation:mapStatusPulse 1.7s ease-in-out infinite;
+}
+.ship-step.is-active .ship-step-label{color:var(--lavender-soft)}
+
+@media (max-width:480px){
+  .map-scene{max-width:300px}
+  .map-status-chip{left:8px;top:8px;padding:5px 10px 5px 8px;font-size:8px}
+  .map-compass{right:8px;top:8px}
+  .map-eta-chip{font-size:8.5px;padding:5px 11px}
+  .ship-tracker{max-width:280px}
+  .ship-step{width:46px}
+}
+@media (prefers-reduced-motion:reduce){
+  .map-route-shimmer,.map-gift-icon,.map-gift-pulse,.map-gift-ring,.map-compass,
+  .map-status-dot,.map-pin-halo,.map-stars i,.ship-step.is-active .ship-step-dot{animation:none;opacity:1}
+}
+
+/* =============================================================
+   GIFT REQUEST FORM — pilihan kado + detail, di bawah peta
+   ============================================================= */
+.gift-form-head{margin-top:20px}
+.gift-form-head .gift-form-title{
+  font:700 11px var(--font-body);letter-spacing:.18em;color:var(--lavender-soft);margin-bottom:6px;
+}
+.gift-form-head p{font-size:13.5px}
+
+.gift-options{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 4px;
+}
+.gift-option{
+  position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  padding:16px 10px;border-radius:var(--radius-md);
+  background:rgba(255,255,255,.035);border:1px solid var(--glass-border);
+  font:600 11.5px var(--font-body);letter-spacing:.04em;color:var(--ink-dim);
+  transition:transform .22s var(--ease-spring),border-color .25s,background .25s,box-shadow .25s;
+}
+.gift-option-icon{font-size:22px;line-height:1}
+.gift-option-wide{grid-column:1 / -1}
+.gift-option:hover{transform:translateY(-2px);border-color:var(--glass-border-strong)}
+.gift-option.picked{
+  border-color:var(--lavender);background:rgba(184,154,242,.14);
+  box-shadow:0 0 0 3px rgba(184,154,242,.22);color:var(--ink);
+}
+
+/* RING — sengaja dibuat lebih menyorot dari opsi lain, border kelap-kelip */
+.gift-option-ring{
+  border-width:1.5px;
+  border-color:var(--magenta);
+  background:linear-gradient(155deg,rgba(232,120,177,.16),rgba(143,98,216,.12));
+  box-shadow:0 0 0 1px rgba(232,120,177,.3),0 10px 22px -10px rgba(232,120,177,.5);
+  animation:ringBlink 1.3s ease-in-out infinite;
+}
+.gift-option-ring .gift-option-label{color:var(--ink)}
+.gift-option-ring.picked{
+  border-color:var(--magenta);background:linear-gradient(155deg,rgba(232,120,177,.26),rgba(143,98,216,.2));
+  box-shadow:0 0 0 3px rgba(232,120,177,.32),0 10px 22px -10px rgba(232,120,177,.6);
+}
+@keyframes ringBlink{
+  0%,100%{
+    border-color:var(--magenta);
+    box-shadow:0 0 0 1px rgba(232,120,177,.3),0 10px 22px -10px rgba(232,120,177,.5);
+  }
+  50%{
+    border-color:var(--lavender-soft);
+    box-shadow:0 0 0 2.5px rgba(217,200,255,.75),0 0 18px 2px rgba(232,120,177,.85),0 12px 28px -8px rgba(232,120,177,.8);
+  }
+}
+.gift-option-badge{
+  position:absolute;top:-11px;right:-8px;
+  padding:3px 9px;border-radius:var(--radius-pill);
+  background:var(--grad-amber);color:#fff;font:700 10.5px/1 var(--font-body);
+  box-shadow:0 4px 10px -3px rgba(232,120,177,.6);
+  animation:badgeWiggle 1.6s ease-in-out infinite;
+  transform-origin:bottom center;
+}
+@keyframes badgeWiggle{
+  0%,100%{transform:rotate(-6deg) scale(1)}
+  25%{transform:rotate(7deg) scale(1.08)}
+  50%{transform:rotate(-4deg) scale(1)}
+  75%{transform:rotate(6deg) scale(1.05)}
+}
+@media (prefers-reduced-motion:reduce){
+  .gift-option-ring{animation:none}
+  .gift-option-badge{animation:none}
+}
+
+.gift-field{margin-top:14px;text-align:left}
+.gift-field label{
+  display:block;font:600 10px var(--font-body);letter-spacing:.08em;color:var(--amber-bright);margin-bottom:6px;
+}
+.gift-field label em{font-style:normal;color:var(--muted-2);font-weight:500;letter-spacing:0}
+.gift-detail-input{min-height:64px}
+.gift-link-input{min-height:44px}
+
+#giftRequestStatus{margin-top:14px}
+
+/* =============================================================
+   FAREWELL
+   ============================================================= */
+.farewell-card{padding-top:36px}
+
+/* =============================================================
+   FINAL
+   ============================================================= */
+.final-inner{position:relative;z-index:1;width:min(440px,100%);text-align:center;padding:20px 10px}
+.final-mark{font-size:26px;color:var(--amber-bright);margin-bottom:10px;animation:sparklePulse 2s ease-in-out infinite}
+@keyframes sparklePulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+.final-inner h2{font-size:clamp(28px,7vw,38px)}
+.secret-card{
+  position:relative;width:min(400px,100%);margin:22px auto 0;border-radius:var(--radius-lg);
+  background:var(--glass-bg);border:1px solid var(--glass-border-strong);box-shadow:var(--shadow-lift);
+  overflow:hidden;padding:0;
+}
+.secret-message{padding:26px 22px;font:italic 500 15px/1.6 var(--font-display);color:var(--ink)}
+.scratch-canvas{
+  position:absolute;inset:0;cursor:pointer;touch-action:none;
+  -webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+  transition:opacity .6s var(--ease-out);
+}
+/* Once enough is scratched away we fade the whole overlay out, instead
+   of leaving whatever partial dabs the person happened to make — a
+   patchy destination-out canvas can never guarantee full, clean
+   coverage of the text underneath on its own. */
+.scratch-canvas.revealed{opacity:0;pointer-events:none}
+.secret-hint{position:absolute;left:0;right:0;bottom:12px;font:500 11px var(--font-body);color:var(--muted);pointer-events:none}
+.final-actions{margin-top:22px}
+
+/* =============================================================
+   REACTION
+   ============================================================= */
+.reaction-grid{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 10px}
+.reaction-btn{
+  width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.04);border:1px solid var(--glass-border);font-size:24px;
+  transition:transform .25s var(--ease-spring),border-color .25s,background .25s;
+}
+.reaction-btn:hover{transform:translateY(-4px) scale(1.08)}
+.reaction-btn.picked{border-color:var(--amber);background:rgba(184,154,242,.14);box-shadow:0 0 0 3px rgba(201,161,90,.25)}
+.reaction-thanks{min-height:20px;margin:6px 0 4px;font:500 13px var(--font-body);color:var(--amber-bright)}
+
+/* =============================================================
+   REPLY
+   ============================================================= */
+.reply-input{min-height:110px;width:100%;margin:14px 0}
+.reply-actions{display:flex;justify-content:center;margin-bottom:14px}
+.reply-final-actions{display:flex;flex-direction:column;gap:10px;align-items:center;margin-top:16px}
+
+/* =============================================================
+   TOAST
+   ============================================================= */
+.toast{
+  position:fixed;left:50%;bottom:calc(var(--nav-clearance,150px) + 14px);transform:translate(-50%,20px);
+  z-index:60;padding:12px 20px;border-radius:var(--radius-pill);
+  background:linear-gradient(180deg,rgba(24,20,49,.92),rgba(14,11,28,.95));
+  border:1px solid var(--glass-border-strong);box-shadow:var(--shadow-lift);
+  font:600 13px var(--font-body);color:var(--ink);opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease-out),transform .3s var(--ease-spring);
+  max-width:min(340px,86vw);text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* =============================================================
+   CONFETTI  (JS sets inline: left/top, --x, background,
+   animation-delay/-duration — CSS only supplies the motion path)
+   ============================================================= */
+.confetti-layer{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.confetti{
+  position:absolute;top:-5vh;width:8px;height:14px;
+  border-radius:2px;opacity:.95;
+  animation-name:confettiFall;animation-timing-function:linear;animation-fill-mode:forwards;
+}
+.confetti-emoji{background:none!important;width:auto;height:auto;font-size:18px}
+@keyframes confettiFall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:1}
+  100%{transform:translate(var(--x,0),105vh) rotate(680deg);opacity:.2}
+}
+
+/* body.celebrating: extra shimmer while final confetti bursts */
+body.celebrating::after{
+  content:"";position:fixed;inset:0;z-index:5;pointer-events:none;
+  background:radial-gradient(60% 40% at 50% 0%,rgba(201,161,90,.12),transparent 70%);
+  animation:celebrateGlow 2.4s ease-in-out infinite;
+}
+@keyframes celebrateGlow{0%,100%{opacity:.4}50%{opacity:.9}}
+
+/* =============================================================
+   RESPONSIVE
+   ============================================================= */
+@media(max-width:700px){
+  .card{padding:32px 22px 26px}
+  .experience-card,.wish-inner{padding:28px 20px 24px}
+  .cake-scene{transform:scale(.82);transform-origin:top center;margin:16px auto -41px}
+  .gift-object{transform:scale(.92)}
+}
+@media(max-height:760px){
+  .card{padding:26px 20px 22px}
+  h1{font-size:clamp(26px,7vw,34px)}
+  h2{font-size:clamp(22px,6vw,28px)}
+  .cake-scene{transform:scale(.62);transform-origin:top center;margin:8px auto -87px}
+  .wish-note{margin:10px auto 12px;padding:12px 14px 10px}
+  .wish-note-input{min-height:44px}
+  .bouquet-scene{max-width:280px;margin:0 auto -20px}
+  .memory-grid{margin:12px 0 8px}
+}
+@media(max-width:380px){
+  .mood-grid{grid-template-columns:1fr 1fr}
+  .reaction-grid{gap:8px}
+  .reaction-btn{width:50px;height:50px;font-size:20px}
+  .progress-nav{width:calc(100% - 16px)}
+  /* Layar sangat sempit (mis. iPhone SE/mini): kecilkan sedikit dua elemen
+     fixed (kapsul musik & dock bawah) supaya proporsinya tetap pas dan
+     tidak terasa menumpuk/kebesaran dibanding kontennya. Cuma ukuran &
+     padding yang berubah — posisi & strukturnya tetap sama persis, jadi
+     tidak ada risiko rusak/bug. Tombol musik tetap ≥38px, masih nyaman
+     disentuh jari. */
+  .music-toggle{gap:7px;padding:4px 11px 4px 4px}
+  .music-toggle .icon-btn{width:38px;height:38px;font-size:14px}
+  .visualizer{height:14px}
+  .visualizer i:nth-child(1){height:5px}
+  .visualizer i:nth-child(2){height:10px}
+  .visualizer i:nth-child(3){height:14px}
+  .visualizer i:nth-child(4){height:9px}
+  .visualizer i:nth-child(5){height:12px}
+  .progress-nav{padding:11px 12px 10px}
+}
+@media(min-width:860px){
+  .card{width:min(480px,100%)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+
+/* =============================================================
+   POLISH PATCH v31 — mobile navigation + richer motion
+   ============================================================= */
+.progress-controls{gap:8px}
+.progress-arrow{
+  width:auto;min-width:42px;height:40px;padding:0 11px;border-radius:999px;
+  gap:5px;font:700 11px/1 var(--font-body);letter-spacing:.01em;white-space:nowrap;
+}
+.progress-arrow .nav-arrow{font-size:18px;line-height:1}
+.progress-arrow:not(:disabled):hover{transform:translateY(-2px)}
+.progress-arrow:active{transform:scale(.95)!important}
+.progress-hint{transition:opacity .3s ease,transform .3s ease}
+.progress-nav:hover .progress-hint{opacity:.95;transform:translateY(-1px)}
+
+/* A little more depth when each page enters. */
+.screen.active .card{
+  animation:screenCardIn .72s var(--ease-soft) both;
+}
+.screen.active .scene-aura,
+.screen.active .celebrate-aura,
+.screen.active .candle-aura{
+  animation:auraEnter .9s var(--ease-out) both, auraFloat 7s ease-in-out 1s infinite;
+}
+@keyframes screenCardIn{
+  0%{opacity:0;transform:translateY(22px) scale(.965);filter:blur(4px)}
+  65%{opacity:1;transform:translateY(-3px) scale(1.006);filter:blur(0)}
+  100%{opacity:1;transform:none;filter:none}
+}
+@keyframes auraEnter{
+  from{opacity:0;transform:translate(-50%,-50%) scale(.72)}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes auraFloat{
+  0%,100%{margin-top:0}
+  50%{margin-top:-10px}
+}
+
+/* subtle ambient shimmer across glass cards — reads as light catching
+   a foil-edged card rather than a generic white glare */
+.card::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,transparent 30%,rgba(238,205,142,.16) 48%,transparent 66%);
+  background-size:220% 100%;opacity:0;
+}
+.screen.active .card::after{animation:glassShimmer 4.8s ease 1.1s both}
+@keyframes glassShimmer{0%{background-position:120% 0;opacity:0}18%{opacity:.65}52%,100%{background-position:-40% 0;opacity:0}}
+
+/* Bouquet: tiny living motion without distorting the photo. */
+.bouquet-scene.bloom-in .bouquet-photo{animation:flowerRise .85s var(--ease-spring) both, bouquetBreathe 4.8s ease-in-out 1s infinite}
+@keyframes bouquetBreathe{0%,100%{filter:drop-shadow(0 18px 30px rgba(0,0,0,.45)) drop-shadow(0 2px 10px rgba(226,105,155,.25));transform:translateY(0) scale(1)}50%{filter:drop-shadow(0 23px 34px rgba(0,0,0,.42)) drop-shadow(0 4px 16px rgba(226,105,155,.34));transform:translateY(-5px) scale(1.012)}}
+
+/* Scratch card gives a tactile cue. */
+.secret-card{isolation:isolate}
+.scratch-canvas{z-index:3}
+.secret-card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:4;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.06), inset 0 0 35px rgba(255,190,120,.06);
+}
+
+@media (max-width:560px){
+  .progress-nav{padding:11px 11px 9px;border-radius:22px;bottom:calc(9px + env(safe-area-inset-bottom,0px))}
+  .progress-head{margin-bottom:7px}
+  .progress-controls{gap:6px}
+  .progress-arrow{min-width:38px;height:36px;padding:0 8px}
+  .progress-arrow .nav-text{display:none}
+  .progress-arrow .nav-arrow{font-size:20px}
+  .love-slider{height:36px}
+  .progress-slider{height:36px}
+  .slider-heart{width:30px;height:30px}
+  .progress-hint{font-size:9px;margin-top:5px}
+}
+
+/* =============================================================
+   LAYAR LEBAR TAPI PENDEK — landscape hp/tablet, atau jendela browser
+   yang di-resize jadi pipih. Tidak mengubah posisi/tata letak elemen
+   manapun — hanya mengecilkan clearance dock bawah, padding layar,
+   dan sedikit densitas dock, supaya kartu tetap pas & tidak
+   "kemakan" oleh dock bawah yang jadi kegedean secara relatif.
+   Semua elemen tetap di posisi & urutan yang sama, cuma lebih ringkas.
+   ============================================================= */
+@media (max-height:640px){
+  :root{--nav-clearance:118px}
+  .screen{padding-top:18px;padding-bottom:14px}
+  .progress-nav{padding:10px 14px 8px}
+  .progress-head{margin-bottom:6px}
+  .progress-hint{margin-top:5px}
+}
+@media (max-height:480px){
+  :root{--nav-clearance:100px}
+  .screen{padding-top:12px;padding-bottom:10px}
+  .progress-nav{padding:8px 12px 7px;border-radius:20px}
+  .progress-head{margin-bottom:4px}
+  .progress-kicker{display:none}
+  .progress-hint{display:none}
+  .progress-arrow{width:32px;height:32px;font-size:15px}
+  .love-slider,.progress-slider{height:32px}
+  .slider-heart{width:22px;height:22px;font-size:10px}
+}
+@media (max-height:400px){
+  :root{--nav-clearance:86px}
+  .progress-nav{padding:6px 10px 6px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .screen.active .card,.screen.active .scene-aura,.screen.active .celebrate-aura,.screen.active .candle-aura,
+  .screen.active .card::after,.bouquet-scene.bloom-in .bouquet-photo{animation:none!important}
+}
+
+
+
+/* =============================================================
+   PERFORMANCE / MOBILE POLISH
+   ============================================================= */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+  .cursor-glow,.silk-sheen{display:none!important}
+}
+
+@media (max-width:600px){
+  /* Keep the dreamy look, but reduce GPU-heavy layers on small screens.
+     backdrop-filter blur is one of the most expensive things a mobile
+     GPU can do, especially stacked with the scene-aura filter:blur(50px)
+     glow behind every card — this is a common cause of phones (iPhone
+     Safari especially) heating up on visually-rich pages. Threshold
+     bumped from 390px to 600px so it actually covers real iPhone CSS
+     widths (390–430px), not just the smallest devices. */
+  .cursor-glow{display:none!important}
+  .silk-sheen{opacity:.45}
+  .grain{opacity:.28}
+  :root{--glass-blur:12px}
+  .scene-aura,.orb,.candle-aura,.celebrate-aura{filter:blur(28px)}
+}
+
+/* Avoid accidentally trapping keyboard users on decorative controls. */
+.memory-card[aria-disabled="true"]{pointer-events:none}
+
+
+/* =============================================================
+   LUXURY PASS — wish / memories / playlist / cinematic transitions
+   Lightweight: transform + opacity + shadows only.
+   ============================================================= */
+.wish-grid{gap:13px;margin:20px 0 24px}
+.wish-card{
+  position:relative; display:grid; grid-template-columns:38px 34px 1fr; align-items:center;
+  min-height:66px; padding:12px 15px; overflow:hidden; flex-shrink:0;
+  border:1px solid rgba(255,255,255,.10); border-radius:18px;
+  background:linear-gradient(135deg,rgba(255,255,255,.085),rgba(255,255,255,.035));
+  box-shadow:0 14px 30px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  transform:translateY(14px); opacity:0;
+  transition:transform .35s var(--ease-out),border-color .35s ease,box-shadow .35s ease,background .35s ease;
+}
+.screen.active .wish-card{animation:luxuryCardIn .68s var(--ease-out) both}
+.screen.active .wish-card:nth-child(1){animation-delay:.12s}.screen.active .wish-card:nth-child(2){animation-delay:.22s}.screen.active .wish-card:nth-child(3){animation-delay:.32s}
+.wish-card::before{content:"";position:absolute;inset:-40% 55% -40% -25%;background:radial-gradient(circle,hsla(var(--mood-hue,285),85%,72%,.14),transparent 68%);pointer-events:none}
+.wish-card::after{content:"";position:absolute;top:0;bottom:0;left:-35%;width:25%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.13),transparent);transform:skewX(-18deg);opacity:0}
+.screen.active .wish-card::after{animation:cardReflection 1.1s ease .65s both}
+.wish-icon{position:relative;z-index:1;width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.07);color:var(--amber-bright);font-size:15px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.wish-index{position:relative;z-index:1;font-size:9px;letter-spacing:.16em;color:rgba(255,255,255,.38);font-weight:700}
+.wish-copy{position:relative;z-index:1;display:block;min-width:0;width:auto;flex:none;font-size:13px;line-height:1.45;color:rgba(255,255,255,.86)}
+/* Override the legacy .wish-pill span rule: copy text is a full grid column,
+   not a 26px icon. This prevents extreme one-word-per-line wrapping on mobile.
+   FIX: .wish-pill span (below) juga men-set background gradient bulat,
+   border-radius:50%, dan height:26px — properti itu TIDAK di-reset di sini
+   sebelumnya, jadi nempel ke teks (bikin bentuk pil pink aneh di belakang
+   tulisan begitu tinggi barisnya lebih dari 26px). Sekarang direset penuh. */
+.wish-card .wish-icon{width:30px;height:30px;min-width:30px;flex:none;border-radius:10px;background:rgba(255,255,255,.07);color:var(--amber-bright)}
+.wish-card .wish-index{width:auto;min-width:0;height:auto;flex:none;display:block;border-radius:0;background:none;color:rgba(255,255,255,.38)}
+.wish-card .wish-copy{width:auto;min-width:0;height:auto;display:block;flex:initial;border-radius:0;background:none;color:rgba(255,255,255,.86)}
+.wish-card:hover,.wish-card:focus-visible{transform:translateY(-2px) translateX(2px);border-color:rgba(238,205,142,.28);box-shadow:0 18px 38px rgba(0,0,0,.24),0 0 24px rgba(124,64,152,.10),inset 0 1px 0 rgba(255,255,255,.09)}
+/* FIX: sebelumnya elemen di atas juga diberi class "memory-card" yang
+   bentrok dengan class minigame Memory Match (position:relative;
+   aspect-ratio:1;...) di bagian atas file ini — itu memaksa kartu jadi
+   kotak raksasa (lebar = tinggi) dan bikin layout berantakan. Sekarang
+   pakai class unik ".memory-item" supaya tidak ketiban style minigame. */
+.memory-item{min-height:76px;grid-template-columns:40px 34px 1fr}
+@keyframes luxuryCardIn{0%{opacity:0;transform:translateY(18px) scale(.985);filter:blur(5px)}65%{opacity:1;filter:blur(0);transform:translateY(-2px) scale(1.005)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes cardReflection{0%{left:-35%;opacity:0}20%{opacity:1}100%{left:125%;opacity:0}}
+
+/* Playlist: feels like a soundtrack chapter, not a plain list. */
+/* FIX: overflow:hidden di atas membuat browser meng-nol-kan tinggi minimum
+   otomatis item ini (perilaku standar flexbox). Akibatnya .playlist-list
+   (flex column, max-height terbatas) bisa menyusutkan tiap item lebih kecil
+   dari kontennya sendiri (cover 42px + judul+artis+chapter), sehingga judul
+   lagu ke-crop di bagian atas/bawah. flex-shrink:0 mengunci item supaya
+   selalu setinggi kontennya dan biarkan .playlist-list yang scroll. */
+.playlist-item{position:relative;overflow:hidden;flex-shrink:0}
+.playlist-item::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,hsla(var(--item-hue),70%,65%,.10),transparent 55%);opacity:0;transition:opacity .3s ease}
+.playlist-item:hover::before,.playlist-item.picked::before{opacity:1}
+.playlist-chapter{display:block;margin-top:3px;font-size:8px;letter-spacing:.17em;color:rgba(255,255,255,.34);text-transform:uppercase}
+.playlist-now{border-color:rgba(238,205,142,.20)!important;box-shadow:0 0 28px rgba(238,205,142,.07),inset 0 1px 0 rgba(255,255,255,.07)}
+
+/* Chapter transitions and the candle/final hand-off. */
+body.scene-cinematic .screen.active .card{animation:luxuryScreenIn .72s var(--ease-out) both}
+@keyframes luxuryScreenIn{0%{opacity:.2;transform:translateY(10px) scale(.992)}100%{opacity:1;transform:none}}
+body.candle-climax #candle{transition:filter .9s ease,opacity .9s ease}
+body.candle-climax #candle{filter:brightness(.48) saturate(.82)}
+body.candle-climax #candle .card{transform:scale(.985);transition:transform 1.2s ease}
+body.final-cinematic .final-inner{animation:finalArrival 1.1s var(--ease-out) both}
+@keyframes finalArrival{0%{opacity:0;transform:translateY(12px) scale(.985);filter:blur(8px)}55%{opacity:1;filter:blur(0)}100%{opacity:1;transform:none}}
+body.final-cinematic .final-mark{animation:sparklePulse 2.2s ease-in-out infinite,finalMarkIn 1.2s .15s both}
+@keyframes finalMarkIn{0%{opacity:0;transform:scale(.5) rotate(-20deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+
+/* Touch feedback: subtle luxury, not game-like. */
+.md-ripple{background:rgba(238,205,142,.22)!important}
+
+@media (prefers-reduced-motion:reduce){
+  .wish-card,.screen.active .wish-card,body.scene-cinematic .screen.active .card,body.final-cinematic .final-inner{animation:none!important;transition:none!important;filter:none!important;transform:none!important;opacity:1!important}
+}
+@media (max-width:560px){
+  .wish-card{grid-template-columns:34px 28px 1fr;min-height:64px;padding:11px 12px;border-radius:16px}
+  .wish-copy{font-size:12.5px;min-width:0;width:auto}.wish-icon{width:27px;height:27px;min-width:27px}
+}
+
+/* =============================================================
+   CINEMATIC INTRO — pembuka ala film, muncul tiap kali halaman
+   dibuka/reload, sebelum layar PIN sepenuhnya kelihatan.
+   Urutan: letterbox turun -> judul + sapaan (ikut jam WIB) muncul
+   -> lens flare menyapu -> letterbox naik lagi & overlay hilang,
+   dibarengi card PIN berdenyut cahaya (lihat .cine-glow-pulse).
+   ============================================================= */
+.cinematic-intro{
+  position:fixed;inset:0;z-index:200;
+  background:#050308;
+  overflow:hidden;pointer-events:none;
+  opacity:1;
+}
+.cinematic-intro.cine-done{
+  opacity:0;transition:opacity .65s ease;
+}
+
+.cine-letterbox{
+  position:absolute;left:0;width:100%;height:14vh;min-height:64px;
+  background:#000;
+  z-index:2;
+}
+.cine-letterbox-top{top:0;transform:translateY(-100%)}
+.cine-letterbox-bottom{bottom:0;transform:translateY(100%)}
+.cinematic-intro.cine-play .cine-letterbox-top{
+  animation:cineLetterboxInTop .6s .05s cubic-bezier(.2,.8,.2,1) forwards,
+            cineLetterboxOutTop .6s 3.15s cubic-bezier(.4,0,.2,1) forwards;
+}
+.cinematic-intro.cine-play .cine-letterbox-bottom{
+  animation:cineLetterboxInBottom .6s .05s cubic-bezier(.2,.8,.2,1) forwards,
+            cineLetterboxOutBottom .6s 3.15s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes cineLetterboxInTop{to{transform:translateY(0)}}
+@keyframes cineLetterboxInBottom{to{transform:translateY(0)}}
+@keyframes cineLetterboxOutTop{to{transform:translateY(-100%)}}
+@keyframes cineLetterboxOutBottom{to{transform:translateY(100%)}}
+
+.cine-dust{position:absolute;inset:0;z-index:1;pointer-events:none}
+.cine-dust-item{position:absolute;width:2px;height:2px;border-radius:50%;background:var(--lavender-soft,#d9c8ff);opacity:0}
+.cinematic-intro.cine-play .cine-dust-item{
+  animation:cineDustFloat var(--cdur,4s) var(--cdelay,0s) ease-in-out infinite;
+}
+@keyframes cineDustFloat{
+  0%{opacity:0;transform:translateY(0)}
+  15%{opacity:.75}
+  85%{opacity:.4}
+  100%{opacity:0;transform:translateY(-40px)}
+}
+
+.cine-title{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;text-align:center;padding:0 24px;
+  opacity:0;
+}
+.cine-kicker{
+  font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.42em;
+  color:var(--lavender-soft,#d9c8ff);text-transform:uppercase;opacity:0;
+}
+.cine-titletext{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;
+  font-size:clamp(28px,8vw,42px);color:#fff;opacity:0;
+  text-shadow:0 0 24px rgba(184,154,242,.55),0 0 60px rgba(184,154,242,.25);
+  transform:scale(.92);
+}
+.cine-greeting{
+  font-family:'Jost',sans-serif;font-size:13px;letter-spacing:.06em;
+  color:var(--muted,#b9a2c7);opacity:0;
+}
+.cinematic-intro.cine-play .cine-title{opacity:1}
+.cinematic-intro.cine-play .cine-kicker{
+  animation:cineFadeUp .6s .45s cubic-bezier(.2,.8,.2,1) forwards,
+            cineFadeOut .4s 2.5s ease forwards;
+}
+.cinematic-intro.cine-play .cine-titletext{
+  animation:cineTitleIn .8s .75s cubic-bezier(.2,.8,.2,1) forwards,
+            cineFadeOut .4s 2.5s ease forwards;
+}
+.cinematic-intro.cine-play .cine-greeting{
+  animation:cineFadeUp .6s 1.55s cubic-bezier(.2,.8,.2,1) forwards,
+            cineFadeOut .4s 2.5s ease forwards;
+}
+@keyframes cineFadeUp{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:none}}
+@keyframes cineTitleIn{0%{opacity:0;transform:scale(.92)}100%{opacity:1;transform:scale(1)}}
+@keyframes cineFadeOut{to{opacity:0}}
+
+.cine-flare{
+  position:absolute;top:0;left:-40%;width:55%;height:100%;z-index:4;
+  background:linear-gradient(115deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.05) 35%,
+    rgba(255,240,255,.55) 50%,
+    rgba(255,255,255,.05) 65%,
+    rgba(255,255,255,0) 100%);
+  transform:skewX(-18deg) translateX(0);
+  opacity:0;
+  filter:blur(2px);
+}
+.cinematic-intro.cine-play .cine-flare{
+  animation:cineFlareSweep 1s 2.95s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes cineFlareSweep{
+  0%{opacity:0;transform:skewX(-18deg) translateX(0)}
+  12%{opacity:1}
+  70%{opacity:.85}
+  100%{opacity:0;transform:skewX(-18deg) translateX(340%)}
+}
+
+/* Reduced motion: satu fade singkat, tanpa letterbox/flare/dust */
+.cinematic-intro.cine-reduced{transition:opacity .3s ease}
+.cinematic-intro.cine-reduced.cine-done{opacity:0}
+.cinematic-intro.cine-reduced .cine-letterbox,
+.cinematic-intro.cine-reduced .cine-flare,
+.cinematic-intro.cine-reduced .cine-title{display:none}
+
+@media (prefers-reduced-motion:reduce){
+  .cinematic-intro{transition:opacity .3s ease}
+  .cine-letterbox,.cine-flare,.cine-title,.cine-dust-item{animation:none!important;display:none!important}
+}
+
+/* Denyut cahaya lembut di card PIN begitu cerita "dibuka" — respons
+   dari fitur cinematic intro, dipicu lewat JS (bukan otomatis nyala
+   di semua card lain). */
+.pin-inner.cine-glow-pulse{
+  animation:cineCardGlow 1.3s ease-in-out 2;
+}
+@keyframes cineCardGlow{
+  0%,100%{box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.05) inset}
+  50%{box-shadow:0 20px 70px rgba(184,154,242,.35),0 0 40px rgba(184,154,242,.3),0 0 0 1px rgba(255,255,255,.08) inset}
+}
+@media (prefers-reduced-motion:reduce){
+  .pin-inner.cine-glow-pulse{animation:none}
+}
+
+/* =============================================================
+   MICRO-INTERACTIONS — tombol utama dapat sentuhan "premium":
+   shimmer emas menyapu kiri ke kanan otomatis tiap beberapa detik
+   (bukan cuma pas hover/tap), plus scale halus saat disentuh.
+   Berlaku untuk semua tombol besar situs (bukan cuma primary),
+   termasuk ghost/round/icon button.
+   ============================================================= */
+.primary-btn,.ghost-btn,.round-btn,.icon-btn{
+  position:relative;overflow:hidden;
+  transition:transform .25s var(--ease-out,cubic-bezier(.2,.8,.2,1)),filter .25s ease;
+}
+.primary-btn::before,.ghost-btn::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.4) 48%,transparent 66%);
+  background-size:220% 100%;background-position:160% 0;
+  animation:microShimmerLoop 4.6s ease-in-out infinite;
+}
+.ghost-btn::before{animation-delay:1.3s}
+@keyframes microShimmerLoop{
+  0%{background-position:160% 0}
+  16%{background-position:-40% 0}
+  100%{background-position:-40% 0}
+}
+.primary-btn:active,.ghost-btn:active,.round-btn:active,.icon-btn:active{transform:scale(.96)}
+@media (hover:hover) and (pointer:fine){
+  .primary-btn:hover,.ghost-btn:hover{transform:translateY(-1px) scale(1.015)}
+  .round-btn:hover,.icon-btn:hover{transform:scale(1.08)}
+}
+@media (prefers-reduced-motion:reduce){
+  .primary-btn,.ghost-btn,.round-btn,.icon-btn{transition:none}
+  .primary-btn::before,.ghost-btn::before{display:none}
+  .primary-btn:hover,.ghost-btn:hover,.round-btn:hover,.icon-btn:hover,
+  .primary-btn:active,.ghost-btn:active,.round-btn:active,.icon-btn:active{transform:none}
+}
+
+/* =============================================================
+   FOIL SHIMMER — judul-judul utama berkilau sekali saat muncul,
+   seperti cetakan foil emas kena cahaya.
+   ============================================================= */
+.screen.active .card h1,
+.screen.active .card h2{
+  background-image:linear-gradient(100deg,var(--ink) 35%,#fff6d9 50%,var(--ink) 65%);
+  background-size:220% 100%;
+  background-position:160% 0;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:foilShimmer 1.5s .4s cubic-bezier(.4,0,.2,1) both;
+}
+@keyframes foilShimmer{0%{background-position:160% 0}100%{background-position:-40% 0}}
+@media (prefers-reduced-motion:reduce){
+  .screen.active .card h1,.screen.active .card h2{
+    animation:none;background-image:none;-webkit-text-fill-color:var(--ink);color:var(--ink)
+  }
+}
+
+/* Hairline gold border on every .card is already global (see .card::before,
+   var(--foil-line)); slightly boosted here so it reads consistently
+   premium across every screen without changing the existing look. */
+.card::before{opacity:.95}
+.card{box-shadow:var(--shadow-lift),inset 0 0 0 1px rgba(238,205,142,.1)}
+
+/* =============================================================
+   WAX SEAL — detail retak/meleleh saat disentuh, sebelum surat
+   terbuka (lebih dari sekadar ganti kelas seperti sebelumnya).
+   ============================================================= */
+.seal{position:relative;overflow:visible}
+.seal.cracked{
+  animation:sealShake .1s ease 3,
+            sealMelt .55s .13s cubic-bezier(.55,0,.85,.35) forwards;
+}
+.seal.cracked .seal-ring{transition:opacity .18s ease;opacity:0}
+.seal.cracked::after{
+  content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;
+  background:
+    linear-gradient(100deg,transparent 46%,rgba(20,10,26,.4) 47.5%,transparent 49%),
+    linear-gradient(18deg,transparent 58%,rgba(20,10,26,.34) 59.5%,transparent 61%),
+    linear-gradient(200deg,transparent 68%,rgba(20,10,26,.3) 69.5%,transparent 71%);
+  opacity:0;
+  animation:sealCrackLines .28s .05s ease forwards;
+}
+@keyframes sealShake{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(-2px) rotate(-3deg)}}
+@keyframes sealCrackLines{to{opacity:1}}
+@keyframes sealMelt{
+  0%{transform:scale(1);opacity:1}
+  55%{transform:scale(1.08) scaleY(.92);opacity:1}
+  100%{transform:scale(.35) scaleY(.15) translateY(14px);opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .seal.cracked{animation:none;opacity:0;transition:opacity .3s ease}
+}
+
+/* =============================================================
+   ACCESS GRANTED STAMP — muncul sekejap begitu PIN benar.
+   ============================================================= */
+.access-stamp{
+  position:fixed;inset:0;z-index:190;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(5,3,8,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  pointer-events:none;
+}
+.access-stamp.stamp-play{display:flex;animation:stampBgFade 1.1s ease both}
+@keyframes stampBgFade{0%{opacity:0}15%{opacity:1}80%{opacity:1}100%{opacity:0}}
+.access-stamp-inner{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
+.access-stamp-ring{
+  position:absolute;width:190px;height:190px;border-radius:50%;
+  border:2.5px solid var(--lavender-soft,#d9c8ff);
+  opacity:0;
+}
+.access-stamp.stamp-play .access-stamp-ring{
+  animation:stampRingIn .55s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes stampRingIn{0%{opacity:0;transform:scale(1.6) rotate(-8deg)}60%{opacity:1}100%{opacity:.9;transform:scale(1) rotate(-8deg)}}
+.access-stamp-text{
+  position:relative;font-family:'Jost',sans-serif;font-weight:700;letter-spacing:.16em;
+  font-size:22px;line-height:1.25;color:var(--lavender-soft,#d9c8ff);text-align:center;
+  transform:rotate(-8deg);opacity:0;
+  text-shadow:0 0 30px rgba(184,154,242,.6);
+}
+.access-stamp.stamp-play .access-stamp-text{
+  animation:stampTextIn .45s .1s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes stampTextIn{0%{opacity:0;transform:rotate(-8deg) scale(1.4)}100%{opacity:1;transform:rotate(-8deg) scale(1)}}
+.access-stamp-sub{
+  position:relative;margin-top:8px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:.04em;
+  color:var(--muted,#b9a2c7);opacity:0;
+}
+.access-stamp.stamp-play .access-stamp-sub{
+  animation:cineFadeUp .5s .35s ease both;
+}
+@media (prefers-reduced-motion:reduce){
+  .access-stamp.stamp-play{animation:none;display:none}
+}
+
+/* =============================================================
+   WIPE / CURTAIN TRANSITION — dipakai pada momen penting (mis.
+   masuk ke sesi tiup lilin) supaya berasa "cut" sinematik, bukan
+   slide biasa.
+   ============================================================= */
+.wipe-overlay{position:fixed;inset:0;z-index:150;pointer-events:none;display:none}
+.wipe-overlay.wipe-play{display:block}
+.wipe-panel{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--bg-3,#28143d),var(--violet-dim,#67439e) 55%,var(--bg-3,#28143d));
+  transform:translateX(-105%);
+}
+.wipe-overlay.wipe-play .wipe-panel{
+  animation:wipeIn .42s cubic-bezier(.4,0,.2,1) forwards,
+            wipeOut .42s .46s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes wipeIn{to{transform:translateX(0)}}
+@keyframes wipeOut{to{transform:translateX(105%)}}
+
+/* ---------- WIPE FLAVORS — tiap momen penting kebagian "rasa" cut
+   sinematiknya sendiri, bukan cuma satu warna/kecepatan generik untuk
+   semuanya. "dramatic" (menuju farewell letter) lebih cepat & magenta
+   pekat; "glow" (menuju candle) lebih lembut, warna lavender keemasan
+   dan sedikit lebih lama supaya berasa seperti jeda sebelum momen
+   spesial. Default (tanpa class tambahan) tetap dipakai untuk openLetter. ---------- */
+.wipe-overlay.wipe-dramatic .wipe-panel{
+  background:linear-gradient(135deg,var(--magenta-dim,#c6538e),var(--magenta,#e878b1) 50%,var(--bg-3,#28143d));
+}
+.wipe-overlay.wipe-dramatic.wipe-play .wipe-panel{
+  animation:wipeIn .3s cubic-bezier(.4,0,.2,1) forwards,
+            wipeOut .3s .58s cubic-bezier(.4,0,.2,1) forwards;
+}
+.wipe-overlay.wipe-glow .wipe-panel{
+  background:linear-gradient(135deg,var(--violet,#8f62d8),var(--lavender-soft,#d9c8ff) 50%,var(--lavender,#b89af2));
+}
+.wipe-overlay.wipe-glow.wipe-play .wipe-panel{
+  animation:wipeIn .38s cubic-bezier(.4,0,.2,1) forwards,
+            wipeOut .38s .5s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .wipe-overlay{display:none!important}
+}
+
+/* =============================================================
+   CANDLE COUNTDOWN — 3...2...1 sebelum mikrofon mulai mendengarkan.
+   ============================================================= */
+.candle-countdown{
+  position:fixed;inset:0;z-index:150;
+  display:flex;align-items:center;justify-content:center;pointer-events:none;
+}
+.candle-countdown[hidden]{display:none}
+.candle-countdown span{
+  font-family:'Cormorant Garamond',serif;font-weight:600;
+  font-size:clamp(72px,22vw,120px);color:#fff;
+  text-shadow:0 0 40px rgba(184,154,242,.6),0 0 80px rgba(184,154,242,.3);
+  animation:cdPulse .7s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes cdPulse{
+  0%{opacity:0;transform:scale(.4)}
+  35%{opacity:1;transform:scale(1.1)}
+  70%{opacity:1;transform:scale(1)}
+  100%{opacity:0;transform:scale(1.25)}
+}
+@media (prefers-reduced-motion:reduce){
+  .candle-countdown{display:none!important}
+}
+
+/* =============================================================
+   CUSTOM CURSOR — ikon kecil mengikuti pointer (desktop) + jejak
+   percikan cahaya halus (desktop & sentuhan).
+   ============================================================= */
+.custom-cursor{
+  position:fixed;top:0;left:0;z-index:170;
+  font-size:14px;color:var(--lavender-soft,#d9c8ff);
+  transform:translate(-1000px,-1000px);
+  opacity:0;pointer-events:none;
+  text-shadow:0 0 10px rgba(184,154,242,.8);
+  transition:opacity .25s ease;
+  will-change:transform;
+}
+.custom-cursor.visible{opacity:.85}
+@media (hover:none),(pointer:coarse){.custom-cursor{display:none}}
+@media (prefers-reduced-motion:reduce){.custom-cursor{display:none}}
+
+.cursor-spark{
+  position:fixed;top:0;left:0;z-index:169;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,246,217,.95),rgba(184,154,242,.3) 70%,transparent);
+  pointer-events:none;transform:translate(-50%,-50%);
+  animation:cursorSparkFade .65s ease-out forwards;
+}
+@keyframes cursorSparkFade{
+  0%{opacity:.9;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(.2) translateY(-10px)}
+}
+@media (prefers-reduced-motion:reduce){.cursor-spark{display:none}}
